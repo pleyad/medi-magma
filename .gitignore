@@ -3,3 +3,6 @@
 *.pyc
 wandb/*
 aws*
+
+# NB addons
+.python-version
