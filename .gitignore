@@ -3,3 +3,5 @@
 *.pyc
 wandb/*
 aws*
+
+*_venv/
