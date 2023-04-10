@@ -7,4 +7,4 @@
 
 ### Radiology stuff
 [] what exactly is task given Fahrad's paper
-[] what does data look like Chest vs. Mimic XRC
+[] what does data look like PadChest vs. Mimic-CXR
