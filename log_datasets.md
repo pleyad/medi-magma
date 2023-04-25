@@ -51,6 +51,26 @@ The reports are mapped to the Unified Medical Language System (UMLS) (172 differ
 
 The full dataset is 1.02 TB, but two small samples (167 MB, 1.2 GB) are availabe.
 
+## Log Datasets Magma
+
+Ablation study:  CC12M (Conceptual 12M) - Image Captioning
+
+Training: 
+- LAION (Schuhmann et al., 2021)
+- Wikipedia Image-Text (Srinivasan et al., 2021)
+- CC3M (Changpinyo et al.,2021b)
+- Visual Genome (Krishna et al., 2016)
+- Localized Narratives (Pont-Tuset et al., 2020)
+- VQA (Antol et al., 2015)
+- GQA (Hudson andManning, 2019)
+- OKVQA (Marino et al., 2019),
+- VizWiz (Gurari et al., 2018)
+- Hateful Memes (Kiela
+et al., 2020)
+- CoCo Captions (Chen et al., 2015).
+
+--> 25 million image-text pairs to train our final mode
+
 ## Log
 
 ### 2023-04-10
