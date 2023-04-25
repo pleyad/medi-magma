@@ -10,14 +10,15 @@ I downloaded it (NB).
 ### MIMIC-CXR
 
 Also mentioned in [R2Gen-Repo](https://github.com/cuhksz-nlp/R2Gen#datasets), with a link to the [dataset](https://drive.google.com/file/d/1DS6NYirOXQf8qYieSVMvqNwuOlgAbM_E/view?usp=sharing).
-However, here you need to demand access. I (NB) did that but haven't heard back yet.
+However, here you need to demand access.
 It is also avaible on physionet.
-My *Credentialed Account* is pending approval.
+I (NB) have approval now but still need to check how to make it available, as it is 4.5 TB.
 
 ### MS-CXR
 
 Available on [Physionet](https://physionet.org/content/ms-cxr/0.1/).
 To access it, you need to register on Physionet and then request access to the dataset.
+
 The overview mentions how this dataset extends MIMIC-CXR.
 
 - [ ] How does it extend it? Do we need to worry about duplicates?
@@ -27,12 +28,12 @@ The overview mentions how this dataset extends MIMIC-CXR.
 [Dataset website](https://vindr.ai/datasets/cxr).
 The dataset is available on [Kaggle](https://www.kaggle.com/c/vinbigdata-chest-xray-abnormalities-detection/data).https://www.kaggle.com/c/vinbigdata-chest-xray-abnormalities-detection/.
 The size of the the dataset is 206 GB, but it is freely available.
-In this [notebook](https://www.kaggle.com/code/theolange/ai-vinbigdata-visualisation), the author shows how to load snd explore the dataset.
+In this [notebook](https://www.kaggle.com/code/theolange/ai-vinbigdata-visualisation), the author shows how to load and explore the dataset.
 
 **Task**: Bounding box detection and labelling (14 classes).
 ⚠️ No report generation.
 
-#### Format
+#### Format: **DICOM**
 
 Images are in DICOM format.
 There is a Python library to read DICOM files: [pydicom](https://pydicom.github.io/).
