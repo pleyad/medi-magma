@@ -8,7 +8,11 @@
 - Mentioned in [R2Gen-Repo](https://github.com/cuhksz-nlp/R2Gen#datasets), with a link to the [zipped dataset](https://drive.google.com/file/d/1c0BXEuDy8Cmm2jfN0YYGkQxFZd2ZIoLg/view).
 - example project based on the dataset: https://rohansoni-jssaten2019.medium.com/indiana-university-chest-x-rays-automated-report-generation-38f928e6bfc2
 - image(s): usually frontal and lateral
-- report structure: "id", "report" (unstructured), "image_path", "split"
+- report structure: 
+    - "id", 
+    - "report" (unstructured), 
+    - "image_path", 
+    - "split" (test or train)
 
 
 ### MIMIC-CXR 2.0.0
@@ -16,7 +20,10 @@
 - paper: https://physionet.org/content/mimic-cxr/2.0.0/
 - info: https://mimic.mit.edu/docs/iv/modules/cxr/
 - repo (sample projects): https://github.com/MIT-LCP/mimic-code/tree/main/mimic-iv-cxr/notebooks
-- structure: subject_id (patient), study_id (report), dicom_id (image(s))
+- structure: 
+    - subject_id (patient)
+    - study_id (report)
+    - dicom_id (image(s))
 - size: 227,835 imaging studies for 64,588 patients
 - images: usually 2 images per patient: frontal and lateral view
 - A records file, cxr-record-list.csv.gz, provides a mapping between the image (dicom_id), the study (study_id), and the patient (subject_id). Another records file, cxr-study-list.csv.gz, provides a mapping between the studies (study_id) and patients (subject_id).
