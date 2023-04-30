@@ -60,7 +60,7 @@
     - global: 6 diagnoses = “Impressions”
 - localization: only text → "sequence of unique anatomical locations is always preceded by the token “loc”"
 - Image Format: **DICOM**: Python library to read DICOM files: [pydicom](https://pydicom.github.io/).
-- - **Task**: Bounding box detection and labelling (14 classes)
+- **Task**: Bounding box detection and labelling (14 classes)
 - ⚠️ No report generation
 - goal: developing and evaluating algorithms for detecting and localizing anomalies in CXR scans
 - size: The published dataset consists of 18,000 postero-anterior (PA) view CXR scans with both the localization of critical findings and the classification of common thoracic diseases. 
