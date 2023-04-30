@@ -27,12 +27,20 @@
 
 ### MS-CXR
 
-Available on [Physionet](https://physionet.org/content/ms-cxr/0.1/).
-To access it, you need to register on Physionet and then request access to the dataset.
-
-The overview mentions how this dataset extends MIMIC-CXR.
-
-- [ ] How does it extend it? Do we need to worry about duplicates?
+- paper: https://arxiv.org/pdf/2204.09817.pdf
+- info: Making the Most of Text Semantics to Improve Biomedical Vision-Language Processing
+- task: phrase grounding? <-- well-balanced phrase grounding benchmark dataset, locally-aligned
+- goal: reproducible evaluation of joint latent semantics learnt by biomedical image-text models
+- structure:
+    - Categories: List of conditions/pathologies
+    - Images: Metadata of the original chest X-ray images. The images need to be separately downloaded from MIMIC-CXR / MIMIC-CXR-JPG projects.
+    - Annotations: Each entry represents a bounding box with an associated sentence describing a condition/pathology. Images may have multiple associated annotations.
+- size: 1162 image–sentence pairs of bounding boxes and corresponding phrases
+- (!) complements the existing MIMIC-CXR v.2 dataset and comprises: 
+    - Reviewed and edited bounding boxes and phrases (1026 pairs of bounding box/sentence);
+    - Manual bounding box labels from scratch (136 pairs of bounding box/sentence)
+- (!) How does it extend MIMIC? Duplicates? --> 
+- Available on [Physionet](https://physionet.org/content/ms-cxr/0.1/). To access it, you need to register on Physionet and then request access to the dataset.
 
 ### VinDr-CXR
 
