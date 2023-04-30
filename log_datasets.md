@@ -35,8 +35,8 @@
 ### MS-CXR
 
 - paper: https://arxiv.org/pdf/2204.09817.pdf
-- info: Making the Most of Text Semantics to Improve Biomedical Vision-Language Processing
-- task: phrase grounding? <-- well-balanced phrase grounding benchmark dataset, locally-aligned
+- info: https://physionet.org/content/ms-cxr/0.1/
+- **task**: phrase grounding? <-- well-balanced phrase grounding benchmark dataset, locally-aligned
 - goal: reproducible evaluation of joint latent semantics learnt by biomedical image-text models
 - structure:
     - Categories: List of conditions/pathologies
@@ -46,7 +46,7 @@
 - (!) complements the existing MIMIC-CXR v.2 dataset and comprises: 
     - Reviewed and edited bounding boxes and phrases (1026 pairs of bounding box/sentence);
     - Manual bounding box labels from scratch (136 pairs of bounding box/sentence)
-- (!) How does it extend MIMIC? Duplicates? --> (HH) the paper claims it merely complements MIMIC, but it increasingly seems that MS-CXR is in fact a subset of MIMIC images. 
+- (!) **How does it extend MIMIC? Duplicates?** --> (HH) the paper claims it merely complements MIMIC, but it increasingly seems that MS-CXR is in fact a subset of MIMIC images. 
     (a) "The images need to be separately downloaded from MIMIC-CXR / MIMIC-CXR-JPG projects". <-- !
     (b) the authors parse original MIMIC reports and extract text descriptions from a subset of MIMIC
 
@@ -54,32 +54,35 @@
 
 ### VinDr-CXR
 
-[Dataset website](https://vindr.ai/datasets/cxr).
-The dataset is available on [Kaggle](https://www.kaggle.com/c/vinbigdata-chest-xray-abnormalities-detection/data).https://www.kaggle.com/c/vinbigdata-chest-xray-abnormalities-detection/.
-The size of the the dataset is 206 GB, but it is freely available.
-In this [notebook](https://www.kaggle.com/code/theolange/ai-vinbigdata-visualisation), the author shows how to load and explore the dataset.
+- paper: https://physionet.org/content/vindr-cxr/1.0.0/
+- labels: bounding boxes and class labels in a CSV file:
+    - local: 22 critical findings - each localized with a bounding box = “Findings” 
+    - global: 6 diagnoses = “Impressions”
+- localization: only text → "sequence of unique anatomical locations is always preceded by the token “loc”"
+- Image Format: **DICOM**: Python library to read DICOM files: [pydicom](https://pydicom.github.io/).
+- - **Task**: Bounding box detection and labelling (14 classes)
+- ⚠️ No report generation
+- goal: developing and evaluating algorithms for detecting and localizing anomalies in CXR scans
+- size: The published dataset consists of 18,000 postero-anterior (PA) view CXR scans with both the localization of critical findings and the classification of common thoracic diseases. 
+- 15,000 train, 3,000 test → both manually annotated
+- has bounding-box annotations but lacks free-text descriptions
 
-**Task**: Bounding box detection and labelling (14 classes).
-⚠️ No report generation.
-
-#### Format: **DICOM**
-
-Images are in DICOM format.
-There is a Python library to read DICOM files: [pydicom](https://pydicom.github.io/).
-
-Labels are bounding boxes and class labels in a CSV file.
+- [Dataset website](https://vindr.ai/datasets/cxr).
+    The dataset is available on [Kaggle](https://www.kaggle.com/c/vinbigdata-chest-xray-abnormalities-detection/data).https://www.kaggle.com/c/vinbigdata-chest-xray-abnormalities-detection/. The size of the the dataset is 206 GB, but it is freely available.
+- In this [notebook](https://www.kaggle.com/code/theolange/ai-vinbigdata-visualisation), the author shows how to load and explore the dataset.
+- and here are some projects based on the dataset: https://www.kaggle.com/competitions/vinbigdata-chest-xray-abnormalities-detection/overview
 
 ### PadChest
+- paper: https://www.sciencedirect.com/science/article/abs/pii/S1361841520301614?via%3Dihub
+- Dataset website: [PadChest](https://bimcv.cipf.es/bimcv-projects/padchest/).
+- subset: A subset of the dataset is available on [Kaggle](https://www.kaggle.com/datasets/raddar/padchest-chest-xrays-sample). The full dataset is 1.02 TB, but two small samples (167 MB, 1.2 GB) are availabe.
+- The data consists of 160'000 X-ray images from 67,000 patients with accompanying reports in Spanish.
+- labels: 174 different radiographic findings, 19 differential diagnoses and 104 anatomic locations organized as a hierarchical taxonomy and mapped onto standard Unified Medical Language System (UMLS) terminology
+- ground truth: manual labeling by trained physicians (27% of the images); 73% by a ML model
+- language: Although the excerpts from the report are provided in Spanish, the labels are mapped onto biomedical vocabulary unique identifier (CUIs) codes, thus making the dataset usable regardless of the language
 
-Dataset website: [PadChest](https://bimcv.cipf.es/bimcv-projects/padchest/).
-A subset of the dataset is available on [Kaggle](https://www.kaggle.com/datasets/raddar/padchest-chest-xrays-sample).
-The data consists of 160'000 X-ray images with accompanying reports in Spanish.
-
-❓ I am unsure whether multiple images from different angles are connected to one report. (NB)
-
-The reports are mapped to the Unified Medical Language System (UMLS) (172 different radiographic findings), but only 27% by human annotators, the rest was done by a machine learning model.
-
-The full dataset is 1.02 TB, but two small samples (167 MB, 1.2 GB) are availabe.
+- ❓ I am unsure whether multiple images from different angles are connected to one report. (NB) --> - (HH) Yes, they are, according to the original paper. Look: 
+    - "Each study contains **one or more images** corresponding to different position views, mainly P-A and lateral, and is associated with a **single radiography report** describing the results of all position views in a common text."
 
 ## Log Datasets Magma
 
