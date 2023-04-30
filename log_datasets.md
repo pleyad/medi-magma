@@ -11,12 +11,19 @@
 - report structure: "id", "report" (unstructured), "image_path", "split"
 
 
-### MIMIC-CXR
+### MIMIC-CXR 2.0.0
 
-Also mentioned in [R2Gen-Repo](https://github.com/cuhksz-nlp/R2Gen#datasets), with a link to the [dataset](https://drive.google.com/file/d/1DS6NYirOXQf8qYieSVMvqNwuOlgAbM_E/view?usp=sharing).
-However, here you need to demand access.
-It is also avaible on physionet.
-I (NB) have approval now but still need to check how to make it available, as it is 4.5 TB.
+- paper: https://physionet.org/content/mimic-cxr/2.0.0/
+- info: https://mimic.mit.edu/docs/iv/modules/cxr/
+- repo (sample projects): https://github.com/MIT-LCP/mimic-code/tree/main/mimic-iv-cxr/notebooks
+- structure: subject_id (patient), study_id (report), dicom_id (image(s))
+- size: 227,835 imaging studies for 64,588 patients
+- images: usually 2 images per patient: frontal and lateral view
+- A records file, cxr-record-list.csv.gz, provides a mapping between the image (dicom_id), the study (study_id), and the patient (subject_id). Another records file, cxr-study-list.csv.gz, provides a mapping between the studies (study_id) and patients (subject_id).
+- report type: semi-structured (but "findings" and "impressions" present)
+
+- Also mentioned in [R2Gen-Repo](https://github.com/cuhksz-nlp/R2Gen#datasets), with a link to the [dataset](https://drive.google.com/file/d/1DS6NYirOXQf8qYieSVMvqNwuOlgAbM_E/view?usp=sharing).
+- However, here one needs to demand access. I (NB) have approval now but still need to check how to make it available, as it is 4.5 TB.
 
 ### MS-CXR
 
