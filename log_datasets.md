@@ -39,7 +39,10 @@
 - (!) complements the existing MIMIC-CXR v.2 dataset and comprises: 
     - Reviewed and edited bounding boxes and phrases (1026 pairs of bounding box/sentence);
     - Manual bounding box labels from scratch (136 pairs of bounding box/sentence)
-- (!) How does it extend MIMIC? Duplicates? --> 
+- (!) How does it extend MIMIC? Duplicates? --> (HH) the paper claims it merely complements MIMIC, but it increasingly seems that MS-CXR is in fact a subset of MIMIC images. 
+    (a) "The images need to be separately downloaded from MIMIC-CXR / MIMIC-CXR-JPG projects". <-- !
+    (b) the authors parse original MIMIC reports and extract text descriptions from a subset of MIMIC
+
 - Available on [Physionet](https://physionet.org/content/ms-cxr/0.1/). To access it, you need to register on Physionet and then request access to the dataset.
 
 ### VinDr-CXR
