@@ -1,6 +1,6 @@
 {
     # language model settings
-    lm_name: 'medicalai/ClinicalBERT'
+    lm_name: 'medicalai/ClinicalBERT',
 
     # image encoder settings
     encoder_name: 'clip_resnet_large',
