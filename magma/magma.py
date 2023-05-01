@@ -3,7 +3,11 @@ from os.path import exists
 import torch
 import torch.nn as nn
 from copy import deepcopy
-from typing import Literal, Optional, List
+from typing import Optional, List
+try:
+    from typing import Literal
+except:
+    from typing_extensions import Literal
 from torchtyping import TensorType
 from transformers.file_utils import ModelOutput
 from magma.config import MultimodalConfig

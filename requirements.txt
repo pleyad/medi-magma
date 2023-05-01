@@ -1,4 +1,5 @@
 Pillow
+typing_extensions
 torchtyping
 typeguard
 transformers
