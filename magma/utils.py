@@ -1,6 +1,7 @@
 import argparse
 import torch.distributed as dist
-from transformers import GPT2TokenizerFast
+from transformers import GPT2TokenizerFast, AutoTokenizer
+
 import deepspeed
 from pathlib import Path
 import wandb
@@ -54,7 +55,8 @@ def get_tokenizer(name="gpt2", sequence_length=2048):
             {"cls_token": "<|image|>"}
         )  # add special image token to tokenizer
     else:
-        raise ValueError(f"Tokenizer {name} not recognized")
+        tokenizer = AutoTokenizer.from_pretrained(name)
+        # TODO: check if tokenizer config needs to set as above
     return tokenizer
 
 
