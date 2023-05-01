@@ -21,6 +21,13 @@ https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh
 
 More detailed instruction here: https://code.visualstudio.com/docs/remote/ssh#_getting-started
 
+## Virtualenv on Server
+* When running code, activate the virtualenvironment: 
+```bash
+source magma_venv/bin/activate
+```
+
+
 ## Logins
 
 * vbernhard

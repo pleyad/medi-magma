@@ -1,5 +1,5 @@
 import torch
-from transformers import GPTNeoForCausalLM, AutoConfig, GPT2LMHeadModel
+from transformers import GPTNeoForCausalLM, AutoConfig, GPT2LMHeadModel, AutoTokenizer, AutoModel
 from .utils import print_main
 from pathlib import Path
 from transformers.modeling_utils import no_init_weights
@@ -7,7 +7,13 @@ from transformers.modeling_utils import no_init_weights
 LANGUAGE_MODELS = [
     "gptj",
 ]
+# TODO: LM
 
+# Language model in question
+# medicalai/ClinicalBERT
+# stanford-crfm/BioMedLM
+# microsoft/BiomedVLP-CXR-BERT-general
+# microsoft/BiomedVLP-CXR-BERT-specialized -> chest X-ray only
 
 def gptj_config():
     config = AutoConfig.from_pretrained("EleutherAI/gpt-neo-2.7B")
@@ -42,4 +48,10 @@ def get_gptj(
     else:
         with no_init_weights():
             model = GPTNeoForCausalLM(config=config)
+    return model
+
+
+def load_lm(lm: str):
+    print(f'Loading {lm} language model...')
+    model = AutoModel.from_pretrained(lm)
     return model

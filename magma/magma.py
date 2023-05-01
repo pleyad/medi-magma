@@ -9,7 +9,7 @@ from transformers.file_utils import ModelOutput
 from magma.config import MultimodalConfig
 
 from magma.utils import get_tokenizer
-from .language_model import get_gptj
+from .language_model import get_gptj, load_lm
 from .adapters import (
     Adapter,
     ParallelAdapter,
@@ -40,11 +40,12 @@ class Magma(nn.Module):
             "cuda" if torch.cuda.is_available() else "cpu"
         )
         self.config = config
-        self.lm = get_gptj() #.to(self.device)
+        # self.lm = get_gptj() #.to(self.device)
+        self.lm = load_lm(config.lm)
         self.seq_len = self.lm.config.max_position_embeddings
 
-        self.tokenizer = get_tokenizer("gpt2", sequence_length=self.seq_len)
-
+        # self.tokenizer = get_tokenizer("gpt2", sequence_length=self.seq_len) #TODO: LM
+        self.tokenizer = get_tokenizer(config.lm, sequence_length=self.seq_lens)
         self.image_token = self.tokenizer.cls_token_id
         self.eos_token = self.tokenizer.eos_token_id
         self.lm.resize_token_embeddings(len(self.tokenizer))
