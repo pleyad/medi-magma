@@ -9,10 +9,18 @@ I downloaded it (NB).
 
 ### MIMIC-CXR
 
+#### Info
+
 Also mentioned in [R2Gen-Repo](https://github.com/cuhksz-nlp/R2Gen#datasets), with a link to the [dataset](https://drive.google.com/file/d/1DS6NYirOXQf8qYieSVMvqNwuOlgAbM_E/view?usp=sharing).
-However, here you need to demand access.
 It is also avaible on physionet.
+This repo [MIMIC-CXR](https://github.com/MIT-LCP/mimic-cxr) contains a lot of information about the dataset, together with notebooks to explore it.
+This is the corresponding Paper: [https://www.nature.com/articles/s41597-019-0322-0](https://www.nature.com/articles/s41597-019-0322-0)
+
+#### Progress
+
 I (NB) have approval now but still need to check how to make it available, as it is 4.5 TB.
+
+29.04: I am currently downloading it to rattle, into `/srv/scratch1/bodenmann/mimic-cxr`.
 
 ### MS-CXR
 
