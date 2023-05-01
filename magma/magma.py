@@ -49,7 +49,7 @@ class Magma(nn.Module):
         self.seq_len = self.lm.config.max_position_embeddings
 
         # self.tokenizer = get_tokenizer("gpt2", sequence_length=self.seq_len) #TODO: LM
-        self.tokenizer = get_tokenizer(config.lm_name, sequence_length=self.seq_lens)
+        self.tokenizer = get_tokenizer(config.lm_name, sequence_length=self.seq_len)
         self.image_token = self.tokenizer.cls_token_id
         self.eos_token = self.tokenizer.eos_token_id
         self.lm.resize_token_embeddings(len(self.tokenizer))
