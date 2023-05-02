@@ -8,6 +8,7 @@
 - Mentioned in [R2Gen-Repo](https://github.com/cuhksz-nlp/R2Gen#datasets), with a link to the [zipped dataset](https://drive.google.com/file/d/1c0BXEuDy8Cmm2jfN0YYGkQxFZd2ZIoLg/view).
 - example project based on the dataset: https://rohansoni-jssaten2019.medium.com/indiana-university-chest-x-rays-automated-report-generation-38f928e6bfc2
 - image(s): usually frontal and lateral
+- image format: DICOM
 - report structure: 
     - "id", 
     - "report" (unstructured), 
