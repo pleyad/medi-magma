@@ -26,8 +26,8 @@
     gradient_clipping: 1.0,
 
     # dataset / save / load settings
-    train_dataset_name: 'conceptual_captions', # TODO: adjust data
-    train_dataset_dir: '/mnt/localdisk/conceptual_captions', # TODO: adjust data
+    train_dataset_name: 'toy_dataset', # TODO: adjust data
+    train_dataset_dir: '/home/user/vbernhard/medi-magma/data', # TODO: adjust data
     eval_dataset_name: 'coco', # TODO: adjust data
     eval_dataset_dir: '/mnt/localdisk/coco_data', # TODO: adjust data
     
