@@ -90,10 +90,17 @@ class Magma(nn.Module):
         # add adapters
         if config.adapter_config:
             mlp_config = deepcopy(config.adapter_config.get("mlp", None))
+            if self.lm.config.model_type == 'distilbert':
+                location = 'ffn'
+                ff_attr = 'ffn'
+            else:
+                location = 'mlp'
+                ff_attr = 'mlp'
             if mlp_config:
                 assert mlp_config.get("adapter_type") is not None
                 self.add_adapters(
-                    location="mlp",
+                    location=location,
+                    ff_attr=ff_attr,
                     adapter_type=mlp_config.pop("adapter_type"),
                     downsample_factor=mlp_config.pop("downsample_factor", 4),
                     **mlp_config,
@@ -103,6 +110,7 @@ class Magma(nn.Module):
                 assert attn_config.get("adapter_type") is not None
                 self.add_adapters(
                     location="attention",
+                    ff_attr=ff_attr,
                     adapter_type=attn_config.pop("adapter_type"),
                     **attn_config,
                 )
@@ -121,7 +129,7 @@ class Magma(nn.Module):
         self,
         downsample_factor: int = 4,
         adapter_type: Literal["normal", "parallel", "scaled_parallel"] = "normal",
-        location: Literal["mlp", "attention"] = "mlp",
+        location: Literal["mlp", "attention", "ffn"] = "mlp",
         ff_attr: str = "mlp",
         attn_attr: str = "attn",
         **adapter_kwargs,
@@ -137,10 +145,11 @@ class Magma(nn.Module):
         assert location in [
             "mlp",
             "attention",
-        ], "location must be one of 'mlp' or 'attention'"
+            "ffn"
+        ], "location must be one of 'mlp' (or 'ffn') or 'attention'"
 
         for l in range(len(self.transformer)):
-            if location == "mlp":
+            if location == "mlp" or location == 'ffn':
                 if self.mlp_adapter_added:
                     raise ValueError("Adapter layer already added")
                 mlp = getattr(self.transformer[l], ff_attr)
