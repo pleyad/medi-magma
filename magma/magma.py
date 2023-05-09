@@ -45,7 +45,7 @@ class Magma(nn.Module):
         )
         self.config = config
         # self.lm = get_gptj() #.to(self.device)
-        self.lm = load_lm(config.lm_name)
+        self.lm = load_lm(config.lm_name).to(self.device)
         self.seq_len = self.lm.config.max_position_embeddings
 
         # self.tokenizer = get_tokenizer("gpt2", sequence_length=self.seq_len) #TODO: LM
@@ -57,17 +57,17 @@ class Magma(nn.Module):
 
         # if BERT model
         if self.lm.config.model_type == 'distilbert':
-            self.word_embedding = self.lm.embeddings.word_embeddings  #.to(device)  
+            self.word_embedding = self.lm.embeddings.word_embeddings.to(self.device)  
             self.transformer = self.lm.transformer.layer
       
         # if GPT2 model
         elif self.lm.config.model_type == 'gpt2':
-            self.word_embedding = self.lm.wte #.to(device)
+            self.word_embedding = self.lm.wte.to(self.device)
             self.transformer = self.lm.h
 
         # if GPTNeo model
         elif self.lm.config.model_type == 'gpt-neo':        
-            self.word_embedding = self.lm.transformer.wte #.to(device)    
+            self.word_embedding = self.lm.transformer.wte.to(self.device)    
             self.transformer = self.lm.transformer.h
 
         # adapter settings
@@ -76,7 +76,7 @@ class Magma(nn.Module):
         self.image_prefix = ImagePrefix(
             config=config,
             out_dim=self.lm.config.hidden_size,
-        ) #.to(self.device)
+        ).to(self.device)
 
         # might change based on the type of image encoder, so get from prefix instead of config
         self.image_prefix_seq_len = self.image_prefix.out_seq_len
