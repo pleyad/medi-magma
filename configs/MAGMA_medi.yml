@@ -1,6 +1,9 @@
 {
     # language model settings
     lm_name: 'medicalai/ClinicalBERT',
+    # lm_name: 'stanford-crfm/BioMedLM',
+    # lm_name: 'microsoft/BiomedVLP-CXR-BERT-general'
+
 
     # image encoder settings
     encoder_name: 'clip_resnet_large',
