@@ -45,7 +45,7 @@ class Magma(nn.Module):
         )
         self.config = config
         # self.lm = get_gptj() #.to(self.device)
-        self.lm = load_lm(config.lm_name)
+        self.lm = load_lm(config.lm_name).to(self.device)
         self.seq_len = self.lm.config.max_position_embeddings
 
         # self.tokenizer = get_tokenizer("gpt2", sequence_length=self.seq_len) #TODO: LM
@@ -54,8 +54,21 @@ class Magma(nn.Module):
         self.eos_token = self.tokenizer.eos_token_id
         self.lm.resize_token_embeddings(len(self.tokenizer))
         self.lm.config.pad_token_id = self.tokenizer.eos_token_id
-        self.word_embedding = self.lm.transformer.wte #.to(device)
-        self.transformer = self.lm.transformer.h
+
+        # if BERT model
+        if self.lm.config.model_type == 'distilbert':
+            self.word_embedding = self.lm.embeddings.word_embeddings.to(self.device)  
+            self.transformer = self.lm.transformer.layer
+      
+        # if GPT2 model
+        elif self.lm.config.model_type == 'gpt2':
+            self.word_embedding = self.lm.wte.to(self.device)
+            self.transformer = self.lm.h
+
+        # if GPTNeo model
+        elif self.lm.config.model_type == 'gpt-neo':        
+            self.word_embedding = self.lm.transformer.wte.to(self.device)    
+            self.transformer = self.lm.transformer.h
 
         # adapter settings
         self.mlp_adapter_added, self.attn_adapter_added = False, False
@@ -63,7 +76,7 @@ class Magma(nn.Module):
         self.image_prefix = ImagePrefix(
             config=config,
             out_dim=self.lm.config.hidden_size,
-        ) #.to(self.device)
+        ).to(self.device)
 
         # might change based on the type of image encoder, so get from prefix instead of config
         self.image_prefix_seq_len = self.image_prefix.out_seq_len
@@ -77,10 +90,17 @@ class Magma(nn.Module):
         # add adapters
         if config.adapter_config:
             mlp_config = deepcopy(config.adapter_config.get("mlp", None))
+            if self.lm.config.model_type == 'distilbert':
+                location = 'ffn'
+                ff_attr = 'ffn'
+            else:
+                location = 'mlp'
+                ff_attr = 'mlp'
             if mlp_config:
                 assert mlp_config.get("adapter_type") is not None
                 self.add_adapters(
-                    location="mlp",
+                    location=location,
+                    ff_attr=ff_attr,
                     adapter_type=mlp_config.pop("adapter_type"),
                     downsample_factor=mlp_config.pop("downsample_factor", 4),
                     **mlp_config,
@@ -90,6 +110,7 @@ class Magma(nn.Module):
                 assert attn_config.get("adapter_type") is not None
                 self.add_adapters(
                     location="attention",
+                    ff_attr=ff_attr,
                     adapter_type=attn_config.pop("adapter_type"),
                     **attn_config,
                 )
@@ -108,7 +129,7 @@ class Magma(nn.Module):
         self,
         downsample_factor: int = 4,
         adapter_type: Literal["normal", "parallel", "scaled_parallel"] = "normal",
-        location: Literal["mlp", "attention"] = "mlp",
+        location: Literal["mlp", "attention", "ffn"] = "mlp",
         ff_attr: str = "mlp",
         attn_attr: str = "attn",
         **adapter_kwargs,
@@ -124,10 +145,11 @@ class Magma(nn.Module):
         assert location in [
             "mlp",
             "attention",
-        ], "location must be one of 'mlp' or 'attention'"
+            "ffn"
+        ], "location must be one of 'mlp' (or 'ffn') or 'attention'"
 
         for l in range(len(self.transformer)):
-            if location == "mlp":
+            if location == "mlp" or location == 'ffn':
                 if self.mlp_adapter_added:
                     raise ValueError("Adapter layer already added")
                 mlp = getattr(self.transformer[l], ff_attr)
