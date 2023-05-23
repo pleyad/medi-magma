@@ -1,0 +1,239 @@
+(magma_venv) rattle% deepspeed train.py --config MAGMA_medi.yml
+[2023-05-09 16:48:04,358] [WARNING] [runner.py:191:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2023-05-09 16:48:04,406] [INFO] [runner.py:541:main] cmd = /home/user/vbernhard/medi-magma/magma_venv/bin/python3 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNV19 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None train.py --config MAGMA_medi.yml
+[2023-05-09 16:48:06,526] [INFO] [launch.py:229:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5]}
+[2023-05-09 16:48:06,526] [INFO] [launch.py:235:main] nnodes=1, num_local_procs=6, node_rank=0
+[2023-05-09 16:48:06,526] [INFO] [launch.py:246:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5]})
+[2023-05-09 16:48:06,526] [INFO] [launch.py:247:main] dist_world_size=6
+[2023-05-09 16:48:06,526] [INFO] [launch.py:249:main] Setting CUDA_VISIBLE_DEVICES=0,1,2,3,4,5
+[2023-05-09 16:48:37,106] [INFO] [comm.py:622:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+Loading stanford-crfm/BioMedLM language model...
+Loading stanford-crfm/BioMedLM language model...
+Loading stanford-crfm/BioMedLM language model...
+Loading stanford-crfm/BioMedLM language model...
+Loading stanford-crfm/BioMedLM language model...
+Loading stanford-crfm/BioMedLM language model...
+Some weights of the model checkpoint at stanford-crfm/BioMedLM were not used when initializing GPT2Model: ['lm_head.weight']
+- This IS expected if you are initializing GPT2Model from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing GPT2Model from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of the model checkpoint at stanford-crfm/BioMedLM were not used when initializing GPT2Model: ['lm_head.weight']
+- This IS expected if you are initializing GPT2Model from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing GPT2Model from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of the model checkpoint at stanford-crfm/BioMedLM were not used when initializing GPT2Model: ['lm_head.weight']
+- This IS expected if you are initializing GPT2Model from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing GPT2Model from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of the model checkpoint at stanford-crfm/BioMedLM were not used when initializing GPT2Model: ['lm_head.weight']
+- This IS expected if you are initializing GPT2Model from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing GPT2Model from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of the model checkpoint at stanford-crfm/BioMedLM were not used when initializing GPT2Model: ['lm_head.weight']
+- This IS expected if you are initializing GPT2Model from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing GPT2Model from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of the model checkpoint at stanford-crfm/BioMedLM were not used when initializing GPT2Model: ['lm_head.weight']
+- This IS expected if you are initializing GPT2Model from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing GPT2Model from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+loading dataset paths from /home/user/vbernhard/medi-magma/data: 1000it [00:00, 1624.68it/s]
+loading dataset paths from /mnt/localdisk/coco_data: 0it [00:00, ?it/s]
+loading dataset paths from /home/user/vbernhard/medi-magma/data: 1000it [00:00, 1997.23it/s]
+loading dataset paths from /mnt/localdisk/coco_data: 0it [00:00, ?it/s]
+loading dataset paths from /home/user/vbernhard/medi-magma/data: 1000it [00:01, 874.72it/s]
+loading dataset paths from /home/user/vbernhard/medi-magma/data: 1000it [00:01, 993.87it/s]
+loading dataset paths from /mnt/localdisk/coco_data: 0it [00:00, ?it/s]
+loading dataset paths from /mnt/localdisk/coco_data: 0it [00:00, ?it/s]
+loading dataset paths from /home/user/vbernhard/medi-magma/data: 1000it [00:01, 855.25it/s]
+loading dataset paths from /home/user/vbernhard/medi-magma/data: 1000it [00:01, 882.30it/s]
+loading dataset paths from /mnt/localdisk/coco_data: 0it [00:00, ?it/s]
+loading dataset paths from /mnt/localdisk/coco_data: 0it [00:00, ?it/s]
+Loaded train dataset with 1000 samples
+Loaded eval dataset with 0 samples
+Loaded train dataset with 1000 samples
+Loaded eval dataset with 0 samples
+[2023-05-09 16:51:10,414] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed info: version=0.9.2, git-hash=unknown, git-branch=unknown
+[2023-05-09 16:53:35,776] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed Flops Profiler Enabled: False
+[2023-05-09 16:53:36,030] [INFO] [logging.py:96:log_dist] [Rank 0] Removing param_group that has no 'params' in the client Optimizer
+[2023-05-09 16:53:36,030] [INFO] [logging.py:96:log_dist] [Rank 0] Using client Optimizer as basic optimizer
+[2023-05-09 16:53:36,131] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed Basic Optimizer = AdamW
+[2023-05-09 16:53:36,145] [INFO] [utils.py:54:is_zero_supported_optimizer] Checking ZeRO support for optimizer=AdamW type=<class 'torch.optim.adamw.AdamW'>
+[2023-05-09 16:53:36,204] [INFO] [logging.py:96:log_dist] [Rank 0] Creating torch.float16 ZeRO stage 2 optimizer
+[2023-05-09 16:53:36,254] [INFO] [stage_1_and_2.py:133:__init__] Reduce bucket size 500000000
+[2023-05-09 16:53:36,254] [INFO] [stage_1_and_2.py:134:__init__] Allgather bucket size 500000000
+[2023-05-09 16:53:36,257] [INFO] [stage_1_and_2.py:135:__init__] CPU Offload: False
+[2023-05-09 16:53:36,258] [INFO] [stage_1_and_2.py:136:__init__] Round robin gradient partitioning: False
+Using /home/user/vbernhard/.cache/torch_extensions/py37_cu117 as PyTorch extensions root...
+Emitting ninja build file /home/user/vbernhard/.cache/torch_extensions/py37_cu117/utils/build.ninja...
+Building extension module utils...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+Using /home/user/vbernhard/.cache/torch_extensions/py37_cu117 as PyTorch extensions root...
+ninja: no work to do.
+Loading extension module utils...
+Loading extension module utils...
+Time to load utils op: 1.0099427700042725 seconds
+Time to load utils op: 0.5030887126922607 seconds
+Using /home/user/vbernhard/.cache/torch_extensions/py37_cu117 as PyTorch extensions root...
+Using /home/user/vbernhard/.cache/torch_extensions/py37_cu117 as PyTorch extensions root...
+Emitting ninja build file /home/user/vbernhard/.cache/torch_extensions/py37_cu117/utils/build.ninja...
+Building extension module utils...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module utils...
+Time to load utils op: 0.31414079666137695 seconds
+Loading extension module utils...
+Rank: 3 partition count [6, 6] and sizes[(22700440, False), (451179948, False)] 
+Time to load utils op: 0.3446691036224365 seconds
+Rank: 5 partition count [6, 6] and sizes[(22700440, False), (451179948, False)] 
+Using /home/user/vbernhard/.cache/torch_extensions/py37_cu117 as PyTorch extensions root...
+Using /home/user/vbernhard/.cache/torch_extensions/py37_cu117 as PyTorch extensions root...
+Emitting ninja build file /home/user/vbernhard/.cache/torch_extensions/py37_cu117/utils/build.ninja...
+Building extension module utils...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module utils...
+Loading extension module utils...
+Time to load utils op: 0.37445712089538574 seconds
+Time to load utils op: 0.33550572395324707 seconds
+Rank: 1 partition count [6, 6] and sizes[(22700440, False), (451179948, False)] 
+Rank: 4 partition count [6, 6] and sizes[(22700440, False), (451179948, False)] 
+Rank: 0 partition count [6, 6] and sizes[(22700440, False), (451179948, False)] 
+Rank: 2 partition count [6, 6] and sizes[(22700440, False), (451179948, False)] 
+[2023-05-09 16:53:58,913] [INFO] [utils.py:785:see_memory_usage] Before initializing optimizer states
+[2023-05-09 16:53:58,914] [INFO] [utils.py:789:see_memory_usage] MA 7.09 GB         Max_MA 7.94 GB         CA 8.15 GB         Max_CA 8 GB 
+[2023-05-09 16:53:58,914] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 19.83 GB, percent = 15.8%
+Traceback (most recent call last):
+  File "train.py", line 110, in <module>
+    config_params=config.deepspeed_config_params,
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/__init__.py", line 175, in initialize
+Traceback (most recent call last):
+  File "train.py", line 110, in <module>
+    config_params=config.deepspeed_config_params,
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/__init__.py", line 175, in initialize
+Traceback (most recent call last):
+  File "train.py", line 110, in <module>
+Traceback (most recent call last):
+  File "train.py", line 110, in <module>
+    config_params=config.deepspeed_config_params,
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/__init__.py", line 175, in initialize
+Traceback (most recent call last):
+  File "train.py", line 110, in <module>
+    config_params=config.deepspeed_config_params,
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/__init__.py", line 175, in initialize
+    config_params=config.deepspeed_config_params,
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/__init__.py", line 175, in initialize
+Traceback (most recent call last):
+  File "train.py", line 110, in <module>
+        config_class=config_class)config_class=config_class)    
+
+config_class=config_class)    
+config_class=config_class)  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 308, in __init__
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 308, in __init__
+    
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 308, in __init__
+config_class=config_class)
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 308, in __init__
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 308, in __init__
+    config_params=config.deepspeed_config_params,
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/__init__.py", line 175, in initialize
+    config_class=config_class)
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 308, in __init__
+                self._configure_optimizer(optimizer, model_parameters)    self._configure_optimizer(optimizer, model_parameters)self._configure_optimizer(optimizer, model_parameters)self._configure_optimizer(optimizer, model_parameters)
+self._configure_optimizer(optimizer, model_parameters)
+
+
+
+      File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1173, in _configure_optimizer
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1173, in _configure_optimizer
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1173, in _configure_optimizer
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1173, in _configure_optimizer
+self._configure_optimizer(optimizer, model_parameters)  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1173, in _configure_optimizer
+
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1173, in _configure_optimizer
+    self.optimizer = self._configure_zero_optimizer(basic_optimizer)
+    self.optimizer = self._configure_zero_optimizer(basic_optimizer)
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1435, in _configure_zero_optimizer
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1435, in _configure_zero_optimizer
+    self.optimizer = self._configure_zero_optimizer(basic_optimizer)
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1435, in _configure_zero_optimizer
+        self.optimizer = self._configure_zero_optimizer(basic_optimizer)self.optimizer = self._configure_zero_optimizer(basic_optimizer)
+
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1435, in _configure_zero_optimizer
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1435, in _configure_zero_optimizer
+    self.optimizer = self._configure_zero_optimizer(basic_optimizer)
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/engine.py", line 1435, in _configure_zero_optimizer
+    elastic_checkpoint=self.zero_elastic_checkpoint())
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 485, in __init__
+    elastic_checkpoint=self.zero_elastic_checkpoint())
+    elastic_checkpoint=self.zero_elastic_checkpoint())  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 485, in __init__
+
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 485, in __init__
+        elastic_checkpoint=self.zero_elastic_checkpoint())elastic_checkpoint=self.zero_elastic_checkpoint())
+
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 485, in __init__
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 485, in __init__
+    elastic_checkpoint=self.zero_elastic_checkpoint())
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 485, in __init__
+            self.initialize_optimizer_states()self.initialize_optimizer_states()self.initialize_optimizer_states()
+
+
+          File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 620, in initialize_optimizer_states
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 620, in initialize_optimizer_states
+    self.initialize_optimizer_states()  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 620, in initialize_optimizer_states
+self.initialize_optimizer_states()self.initialize_optimizer_states()
+
+
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 620, in initialize_optimizer_states
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 620, in initialize_optimizer_states
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/deepspeed/runtime/zero/stage_1_and_2.py", line 620, in initialize_optimizer_states
+        self.optimizer.step()self.optimizer.step()
+
+      File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/optimizer.py", line 140, in wrapper
+self.optimizer.step()  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/optimizer.py", line 140, in wrapper
+
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/optimizer.py", line 140, in wrapper
+    self.optimizer.step()
+      File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/optimizer.py", line 140, in wrapper
+self.optimizer.step()
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/optimizer.py", line 140, in wrapper
+    self.optimizer.step()
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/optimizer.py", line 140, in wrapper
+                    out = func(*args, **kwargs)    out = func(*args, **kwargs)out = func(*args, **kwargs)out = func(*args, **kwargs)out = func(*args, **kwargs)
+out = func(*args, **kwargs)
+
+
+
+
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+            return func(*args, **kwargs)return func(*args, **kwargs)    return func(*args, **kwargs)
+
+return func(*args, **kwargs)    
+
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/adamw.py", line 147, in step
+return func(*args, **kwargs)      File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/adamw.py", line 147, in step
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/adamw.py", line 147, in step
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/adamw.py", line 147, in step
+
+return func(*args, **kwargs)
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/adamw.py", line 147, in step
+  File "/home/user/vbernhard/medi-magma/magma_venv/lib/python3.7/site-packages/torch/optim/adamw.py", line 147, in step
+        state['exp_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)state['exp_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+
+            torch.cudastate['exp_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)state['exp_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)    state['exp_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+.
+torch.cuda
+state['exp_avg'] = torch.zeros_like(p, memory_format=torch.preserve_format)OutOfMemoryError.
+: torch.cudaCUDA out of memory. Tried to allocate 1.68 GiB (GPU 0; 11.93 GiB total capacity; 9.03 GiB already allocated; 1.59 GiB free; 9.83 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONFOutOfMemoryErrortorch.cuda.: 
+torch.cudaOutOfMemoryError.OutOfMemoryError: .: OutOfMemoryErrorCUDA out of memory. Tried to allocate 1.68 GiB (GPU 1; 11.93 GiB total capacity; 9.03 GiB already allocated; 1.59 GiB free; 9.83 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF: CUDA out of memory. Tried to allocate 1.68 GiB (GPU 4; 11.93 GiB total capacity; 9.03 GiB already allocated; 1.59 GiB free; 9.83 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+CUDA out of memory. Tried to allocate 1.68 GiB (GPU 3; 11.93 GiB total capacity; 9.03 GiB already allocated; 1.59 GiB free; 9.83 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+
+CUDA out of memory. Tried to allocate 1.68 GiB (GPU 2; 11.93 GiB total capacity; 9.03 GiB already allocated; 1.59 GiB free; 9.83 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.68 GiB (GPU 5; 11.93 GiB total capacity; 9.03 GiB already allocated; 1.59 GiB free; 9.83 GiB reserved in total by PyTorch) If reserved memory is >> allocated memory try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF
+[2023-05-09 16:54:22,324] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 30863
+[2023-05-09 16:54:22,592] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 30864
+[2023-05-09 16:54:25,045] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 30865
+[2023-05-09 16:54:26,485] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 30866
+[2023-05-09 16:54:26,502] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 30867
+[2023-05-09 16:54:26,513] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 30868
+[2023-05-09 16:54:26,645] [ERROR] [launch.py:434:sigkill_handler] ['/home/user/vbernhard/medi-magma/magma_venv/bin/python3', '-u', 'train.py', '--local_rank=5', '--config', 'MAGMA_medi.yml'] exits with return code = 1
+
