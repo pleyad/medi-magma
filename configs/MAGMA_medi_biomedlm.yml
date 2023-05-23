@@ -12,7 +12,8 @@
     # train settings 
     # # for some reason this stops AssertionError: Check batch related parameters. 
     # train_batch_size is not equal to micro_batch_per_gpu * gradient_acc_step * world_size 256 != 5 * 8 * 6AssertionError: Check batch related parameters. train_batch_size is not equal to micro_batch_per_gpu * gradient_acc_step * world_size 256 != 5 * 8 * 6
-    batch_size: 240, 
+    # batch_size: 240, 
+    batch_size: 24,
     # batch_size: 256,
     train_steps: 3,
     lr: 8.0e-4,
@@ -24,9 +25,8 @@
     image_size: 384,
     
     gradient_accumulation_steps: 8,
-    zero_stage: 2,
+    zero_stage: 3,
     gradient_clipping: 1.0,
-    gpus: '0,1,2', 
 
     # dataset / save / load settings
     train_dataset_name: 'toy_dataset', # TODO: adjust data

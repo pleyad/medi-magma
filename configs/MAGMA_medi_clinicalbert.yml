@@ -26,7 +26,6 @@
     gradient_accumulation_steps: 8,
     zero_stage: 3,
     gradient_clipping: 1.0,
-    gpus: '0,1,2', 
 
     # dataset / save / load settings
     train_dataset_name: 'toy_dataset', # TODO: adjust data
