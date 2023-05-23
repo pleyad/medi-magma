@@ -1,8 +1,8 @@
 {
     # language model settings
-    lm_name: 'medicalai/ClinicalBERT',
+    # lm_name: 'medicalai/ClinicalBERT',
     # lm_name: 'stanford-crfm/BioMedLM',
-    # lm_name: 'microsoft/BiomedVLP-CXR-BERT-general'
+    lm_name: 'microsoft/BiomedVLP-CXR-BERT-general',
 
     # image encoder settings
     encoder_name: 'clip_resnet_large',
@@ -14,7 +14,7 @@
     # train_batch_size is not equal to micro_batch_per_gpu * gradient_acc_step * world_size 256 != 5 * 8 * 6AssertionError: Check batch related parameters. train_batch_size is not equal to micro_batch_per_gpu * gradient_acc_step * world_size 256 != 5 * 8 * 6
     batch_size: 240, 
     # batch_size: 256,
-    train_steps: 150000,
+    train_steps: 3,
     lr: 8.0e-4,
     min_lr: 0.0,
     lr_decay_iters: 300000,

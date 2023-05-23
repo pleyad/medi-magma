@@ -52,9 +52,9 @@ class MultimodalConfig:
     # Data:
     # ------------------------------------------------------------
     train_dataset_name: str = "conceptual_captions"
-    eval_dataset_name: str = "/data/conceptual_captions"
+    eval_dataset_name: str = None
     train_dataset_dir: str = "/data/coco_data"
-    eval_dataset_dir: str = "/data/coco_data"
+    eval_dataset_dir: str = None
     eval_dataset_pct: float = 0.1
 
     # Model architecture:
