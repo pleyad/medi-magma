@@ -44,11 +44,11 @@ class Magma(nn.Module):
             "cuda" if torch.cuda.is_available() else "cpu"
         )
         self.config = config
-        # self.lm = get_gptj() #.to(self.device)
+        # self.lm = get_gptj() #.to(self.device) # uncomment to use GPT-J
         self.lm = load_lm(config.lm_name).to(self.device)
         self.seq_len = self.lm.config.max_position_embeddings
 
-        # self.tokenizer = get_tokenizer("gpt2", sequence_length=self.seq_len) #TODO: LM
+        # self.tokenizer = get_tokenizer("gpt2", sequence_length=self.seq_len) # uncomment to use GPT-J
         self.tokenizer = get_tokenizer(config.lm_name, sequence_length=self.seq_len)
         self.image_token = self.tokenizer.cls_token_id
         self.eos_token = self.tokenizer.eos_token_id
@@ -56,19 +56,23 @@ class Magma(nn.Module):
         self.lm.config.pad_token_id = self.tokenizer.eos_token_id
 
         # if BERT model
-        if self.lm.config.model_type == 'distilbert':
-            self.word_embedding = self.lm.embeddings.word_embeddings.to(self.device)  
-            self.transformer = self.lm.transformer.layer
+        # if self.lm.config.model_type == 'distilbert':
+        #     self.word_embedding = self.lm.embeddings.word_embeddings.to(self.device)  
+        #     self.transformer = self.lm.transformer.layer
       
         # if GPT2 model
-        elif self.lm.config.model_type == 'gpt2':
-            self.word_embedding = self.lm.wte.to(self.device)
-            self.transformer = self.lm.h
+        # elif self.lm.config.model_type == 'gpt2':
+        #     self.word_embedding = self.lm.wte.to(self.device)
+        #     self.transformer = self.lm.h
 
         # if GPTNeo model
-        elif self.lm.config.model_type == 'gpt-neo':        
-            self.word_embedding = self.lm.transformer.wte.to(self.device)    
-            self.transformer = self.lm.transformer.h
+        # if self.lm.config.model_type in ['gpt-neo, gpt2']:
+            # self.word_embedding = self.lm.transformer.wte.to(self.device)    
+            # self.transformer = self.lm.transformer.h
+            
+        self.word_embedding = self.lm.transformer.wte.to(self.device)    
+        self.transformer = self.lm.transformer.h
+
 
         # adapter settings
         self.mlp_adapter_added, self.attn_adapter_added = False, False
