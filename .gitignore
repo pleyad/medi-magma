@@ -5,6 +5,8 @@ wandb/*
 aws*
 # VB addons
 *_venv/
+VB_notes.md
+
 # NB addons
 .python-version
 data/
