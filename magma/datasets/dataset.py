@@ -132,7 +132,7 @@ class ImgCptDataset(Dataset):
                     raise e
             img = Image.open(img_path)
             img_tensor = self.transforms(img)
-            caption = random.choice(img_data["captions"])
+            caption = random.choice(img_data["caption"])
             caption_tensor = self.tokenizer.encode(
                 caption,
                 return_tensors="pt",
