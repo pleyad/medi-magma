@@ -132,13 +132,18 @@ def get_params_for_weight_decay_optimization(module, config):
         if isinstance(module_, blacklist_modules) or (
             config.weight_decay == 0.0
         ):  # also include all parameters here if no weight decay is being done
-            no_weight_decay_params["params"].extend(
-                [
+            params_extend = [
                     p
                     for p in list(module_._parameters.values())
                     if (p is not None) and p.requires_grad
                 ]
-            )
+            for param in params_extend:
+                param_ids = [id(p) for p in no_weight_decay_params["params"]]
+                if id(param) not in param_ids:
+                    no_weight_decay_params["params"].extend(
+                    params_extend
+                    )
+                           
         else:
             for n, p in list(module_._parameters.items()):
                 if p is not None and p.requires_grad:
