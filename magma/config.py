@@ -35,6 +35,7 @@ class MultimodalConfig:
     eval_every: int = 250
     eval_steps: int = 25
     zero_stage: int = 2
+    gpus: str = "0,1,2"
     gradient_clipping: float = 1.0
     warmup_num_steps: int = 100
     weight_decay: float = 0.00
@@ -132,6 +133,7 @@ class MultimodalConfig:
                 "load_from_fp32_weights": False,
             },
         }
+        
 
         if self.name is None:
             self.name = str(uuid.uuid4())[:8]
