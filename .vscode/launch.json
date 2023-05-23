@@ -29,11 +29,11 @@
             "justMyCode": true,
             "console": "integratedTerminal",
             "args": [
-                "--num_nodes=1",
-                "--num_gpus=2",
+                "--include",
+                "localhost:7",
                 "/home/user/vbernhard/medi-magma/train.py",
                 "--config",
-                "MAGMA_medi_clinicalbert.yml"                                                    
+                "MAGMA_medi_biomedlm.yml"                                                    
             ],
             "env": {
                 "PYTHONPATH": "${workspaceFolder}",
