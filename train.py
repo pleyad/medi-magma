@@ -145,12 +145,12 @@ if __name__ == "__main__":
         name=config.name or wandb.util.generate_id(),
         config=config,
     )
+    model_engine.train()
 
     # training loop
     for i in pbar:
         if global_step >= config.train_steps:
             break
-        print(f'Model in training mode? {i}: {model.training}')
         ##### train step
         loss = train_step(config, train_loader, model_engine)
 
