@@ -47,16 +47,19 @@ def get_tokenizer(name="gpt2", sequence_length=2048):
     """
     if name == "gpt2":
         tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
-        tokenizer.pad_token_id = tokenizer.eos_token
-        tokenizer.padding_side = "right"
-        tokenizer.model_max_length = sequence_length
-        # setup lm settings
-        tokenizer.add_special_tokens(
-            {"cls_token": "<|image|>"}
-        )  # add special image token to tokenizer
+       
     else:
-        tokenizer = AutoTokenizer.from_pretrained(name)
         # TODO: check if tokenizer config needs to set as above
+        tokenizer = AutoTokenizer.from_pretrained(name)
+         
+    tokenizer.pad_token_id = tokenizer.eos_token
+    tokenizer.padding_side = "right"
+    tokenizer.model_max_length = sequence_length
+    # setup lm settings
+    tokenizer.add_special_tokens(
+        {"cls_token": "<|image|>"}
+    )  # add special image token to tokenizer
+       
     return tokenizer
 
 
