@@ -4,6 +4,7 @@ import deepspeed
 import wandb
 from torch.utils.data import random_split, ConcatDataset
 from torch.optim import AdamW
+from deepspeed.ops.adam import DeepSpeedCPUAdam
 from tqdm import tqdm
 from functools import partial
 from magma.datasets import (
@@ -99,6 +100,12 @@ if __name__ == "__main__":
         betas=(0.9, 0.95),
         weight_decay=config.weight_decay,
     )
+    # opt = DeepSpeedCPUAdam(
+    #     trainable_parameters,
+    #     config.lr,
+    #     betas=(0.9, 0.95),
+    #     weight_decay=config.weight_decay,
+    # )
 
     model_engine, opt, train_loader, lr_scheduler = deepspeed.initialize(
         args=args,
@@ -143,7 +150,7 @@ if __name__ == "__main__":
     for i in pbar:
         if global_step >= config.train_steps:
             break
-
+        print(f'Model in training mode? {i}: {model.training}')
         ##### train step
         loss = train_step(config, train_loader, model_engine)
 
