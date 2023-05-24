@@ -26,7 +26,7 @@
             "type": "python",
             "request": "launch",
             "program": "/home/user/vbernhard/medi-magma/magma_venv/bin/deepspeed",
-            "justMyCode": true,
+            "justMyCode": false,
             "console": "integratedTerminal",
             "args": [
                 "--include",
