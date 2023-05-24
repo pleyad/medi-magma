@@ -35,7 +35,6 @@ class MultimodalConfig:
     eval_every: int = 250
     eval_steps: int = 25
     zero_stage: int = 2
-    gpus: str = "0,1,2"
     gradient_clipping: float = 1.0
     warmup_num_steps: int = 100
     weight_decay: float = 0.00
@@ -131,7 +130,25 @@ class MultimodalConfig:
             "zero_optimization": {
                 "stage": self.zero_stage,
                 "load_from_fp32_weights": False,
+                 "offload_optimizer": {
+                    "device": "cpu",
+                    "pin_memory": True
+                },
+                "offload_param": {
+                    "device": "cpu",
+                    "pin_memory": True
+                },
+                "overlap_comm": True,
+                "contiguous_gradients": True,
+                "sub_group_size": 1e9,
+                "reduce_bucket_size": "auto",
+                "stage3_prefetch_bucket_size": "auto",
+                "stage3_param_persistence_threshold": "auto",
+                "stage3_max_live_parameters": 1e9,
+                "stage3_max_reuse_distance": 1e9,
+                "stage3_gather_16bit_weights_on_model_save": True
             },
+            "zero_force_ds_cpu_optimizer": False,
         }
         
 
