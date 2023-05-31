@@ -41,6 +41,7 @@ class MultimodalConfig:
     run_blind: bool = False
     fine_tune: bool = False
     load_optimizer: bool = True
+    prompt: str = ''
 
     # Checkpointing:
     # ------------------------------------------------------------

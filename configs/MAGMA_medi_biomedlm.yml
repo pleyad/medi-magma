@@ -23,6 +23,7 @@
     use_image_embed_layernorm: true,
     image_embed_dropout_prob: 0.1, 
     image_size: 384,
+    prompt: 'Write a radiology report: ',
     
     gradient_accumulation_steps: 8,
     zero_stage: 3,

@@ -32,13 +32,13 @@ from magma.train_loop import (
 )
 
 
-def _load_img_cpt_datasets(dataset_dir, tokenizer, transforms):
+def _load_img_cpt_datasets(dataset_dir, tokenizer, transforms, prompt: str):
     if isinstance(dataset_dir, (list, tuple)):
         return ConcatDataset(
             [_load_img_cpt_datasets(d, tokenizer, transforms) for d in dataset_dir]
         )
     elif isinstance(dataset_dir, str):
-        return ImgCptDataset(dataset_dir, tokenizer=tokenizer, transforms=transforms)
+        return ImgCptDataset(dataset_dir, tokenizer=tokenizer, transforms=transforms, prompt=prompt)
     else:
         raise TypeError("dataset dir wrong type")
 
@@ -46,7 +46,7 @@ def _load_img_cpt_datasets(dataset_dir, tokenizer, transforms):
 def get_pretraining_datasets(config, tokenizer, transforms):
     # if config.train_dataset_dir is a list, load all datasets + join together
     train_dataset = _load_img_cpt_datasets(
-        config.train_dataset_dir, tokenizer, transforms
+        config.train_dataset_dir, tokenizer, transforms, config.prompt
     )
     # if no dedicated eval sets are given, use a percentage of the train dataset
     if config.eval_dataset_dir is None:
