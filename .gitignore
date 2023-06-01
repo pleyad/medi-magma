@@ -5,7 +5,7 @@ wandb/*
 aws*
 # VB addons
 *_venv/
-VB_notes.md
+checkpoints/
 
 # NB addons
 .python-version
