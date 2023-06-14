@@ -126,7 +126,7 @@ class MultimodalConfig:
             "train_batch_size": self.batch_size,
             "gradient_accumulation_steps": self.gradient_accumulation_steps,
             "gradient_clipping": self.gradient_clipping,
-            "fp16": {"enabled": True, "loss_scale_window": 250},
+            "bf16": {"enabled": True, "loss_scale_window": 250},
             "scheduler": self.scheduler_dict,
             "zero_optimization": {
                 "stage": self.zero_stage,
