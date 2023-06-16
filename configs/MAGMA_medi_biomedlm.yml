@@ -12,7 +12,8 @@
     # train settings 
     # # for some reason this stops AssertionError: Check batch related parameters. 
     # train_batch_size is not equal to micro_batch_per_gpu * gradient_acc_step * world_size 256 != 5 * 8 * 6AssertionError: Check batch related parameters. train_batch_size is not equal to micro_batch_per_gpu * gradient_acc_step * world_size 256 != 5 * 8 * 6
-    batch_size: 240, 
+    # batch_size: 240, 
+    batch_size: 16,
     # batch_size: 256,
     train_steps: 150000,
     lr: 8.0e-4,
@@ -22,20 +23,21 @@
     use_image_embed_layernorm: true,
     image_embed_dropout_prob: 0.1, 
     image_size: 384,
+    prompt: 'Write a radiology report: ',
     
     gradient_accumulation_steps: 8,
-    zero_stage: 2,
+    zero_stage: 3,
     gradient_clipping: 1.0,
 
     # dataset / save / load settings
-    train_dataset_name: 'toy_dataset', # TODO: adjust data
-    train_dataset_dir: '/home/user/vbernhard/medi-magma/data', # TODO: adjust data
-    # eval_dataset_name: 'coco', # TODO: adjust data
-    # eval_dataset_dir: '/mnt/localdisk/coco_data', # TODO: adjust data
+    train_dataset_name: 'mimic-train', # TODO: adjust data
+    train_dataset_dir: '/srv/scratch1/nbodenmann/prepared_mimic-cxr/train', #'/home/user/nbodenmann/m2nlp/medi-magma/data', # TODO: adjust data
+    eval_dataset_name: 'mimic-val', # TODO: adjust data
+    eval_dataset_dir: '/srv/scratch1/nbodenmann/prepared_mimic-cxr/validate', # TODO: adjust data
     
-    save: "checkpoints/medi_magma_first_trials", 
+    save: "checkpoints/medimagma_firstfullmimic", #"checkpoints/medi_magma_first_trials", 
     # load: "checkpoints/medi_magma_first_trials",
 
-    eval_every: 100,
+    eval_every: 5,
 
 }

@@ -96,13 +96,14 @@ class ImgCptDataset(Dataset):
     """
 
     def __init__(
-        self, data_dir, tokenizer, transforms, seq_len=2048, load_data_in_memory=False
+        self, data_dir, tokenizer, transforms, prompt, seq_len=2048, load_data_in_memory=False
     ):
         self.data_dir = Path(data_dir)
         self.tokenizer = tokenizer
         self.transforms = transforms
         self.seq_len = seq_len
         self.load_data_in_memory = load_data_in_memory
+        self.prompt = prompt
         if self.load_data_in_memory:
             self.data = _read_image_data(self.data_dir)
         else:
@@ -132,7 +133,10 @@ class ImgCptDataset(Dataset):
                     raise e
             img = Image.open(img_path)
             img_tensor = self.transforms(img)
-            caption = random.choice(img_data["captions"])
+            # caption = random.choice(img_data["caption"])
+            caption = img_data['caption']
+            ## add prompt
+            caption = self.prompt + caption
             caption_tensor = self.tokenizer.encode(
                 caption,
                 return_tensors="pt",

@@ -4,6 +4,7 @@ import deepspeed
 import wandb
 from torch.utils.data import random_split, ConcatDataset
 from torch.optim import AdamW
+from deepspeed.ops.adam import DeepSpeedCPUAdam
 from tqdm import tqdm
 from functools import partial
 from magma.datasets import (
@@ -31,13 +32,13 @@ from magma.train_loop import (
 )
 
 
-def _load_img_cpt_datasets(dataset_dir, tokenizer, transforms):
+def _load_img_cpt_datasets(dataset_dir, tokenizer, transforms, prompt: str):
     if isinstance(dataset_dir, (list, tuple)):
         return ConcatDataset(
             [_load_img_cpt_datasets(d, tokenizer, transforms) for d in dataset_dir]
         )
     elif isinstance(dataset_dir, str):
-        return ImgCptDataset(dataset_dir, tokenizer=tokenizer, transforms=transforms)
+        return ImgCptDataset(dataset_dir, tokenizer=tokenizer, transforms=transforms, prompt=prompt)
     else:
         raise TypeError("dataset dir wrong type")
 
@@ -45,7 +46,7 @@ def _load_img_cpt_datasets(dataset_dir, tokenizer, transforms):
 def get_pretraining_datasets(config, tokenizer, transforms):
     # if config.train_dataset_dir is a list, load all datasets + join together
     train_dataset = _load_img_cpt_datasets(
-        config.train_dataset_dir, tokenizer, transforms
+        config.train_dataset_dir, tokenizer, transforms, config.prompt
     )
     # if no dedicated eval sets are given, use a percentage of the train dataset
     if config.eval_dataset_dir is None:
@@ -99,6 +100,12 @@ if __name__ == "__main__":
         betas=(0.9, 0.95),
         weight_decay=config.weight_decay,
     )
+    # opt = DeepSpeedCPUAdam(
+    #     trainable_parameters,
+    #     config.lr,
+    #     betas=(0.9, 0.95),
+    #     weight_decay=config.weight_decay,
+    # )
 
     model_engine, opt, train_loader, lr_scheduler = deepspeed.initialize(
         args=args,
@@ -138,12 +145,12 @@ if __name__ == "__main__":
         name=config.name or wandb.util.generate_id(),
         config=config,
     )
+    model_engine.train()
 
     # training loop
     for i in pbar:
         if global_step >= config.train_steps:
             break
-
         ##### train step
         loss = train_step(config, train_loader, model_engine)
 
