@@ -31,5 +31,22 @@ deepspeed --include localhost:5,6,7 train.py --config MAGMA_medi_biomedlm.yml
 ```
 
 ### Current issues
-[ ] as of 01.06: Learning rate scheduler accessed before defined --> probably reason for weird loss curve
-[ ] as of 09.06: RuntimeError: cuDNN error: CUDNN_STATUS_NOT_INITIALIZED
+[x] as of 01.06: Learning rate scheduler accessed before defined --> probably reason for weird loss curve
+[x] as of 09.06: RuntimeError: cuDNN error: CUDNN_STATUS_NOT_INITIALIZED
+
+
+### First full mimix CXR training - some facts
+
+* Number of training/evaluation samples: ?
+--> load again to see
+--> compare training step to actually epoch notion
+* Batch size: 24
+* Number of training steps: 2400
+* Training time for training step: 55.69s
+* Inference time for one example: 3 minutes
+* Total training time: 42h 43 minute 
+* Checkpoints saved every 100 training steps
+
+
+### Fine tune previous training with IU-Xray
+* Chose checkpoints from training with lowest eval: 1000 (?)

@@ -30,15 +30,16 @@
     gradient_clipping: 1.0,
 
     # dataset / save / load settings
-    train_dataset_name: 'mimic-train', # TODO: adjust data
-    train_dataset_dir: '/srv/scratch1/nbodenmann/prepared_mimic-cxr/train', #'/home/user/nbodenmann/m2nlp/medi-magma/data', # TODO: adjust data
-    eval_dataset_name: 'mimic-val', # TODO: adjust data
-    eval_dataset_dir: '/srv/scratch1/nbodenmann/prepared_mimic-cxr/validate', # TODO: adjust data
+    train_dataset_name: 'iu-train', # TODO: adjust data
+    train_dataset_dir: '/srv/scratch1/nbodenmann/prepared_iu-xtray/train', # TODO: adjust data
+    eval_dataset_name: 'iu-val', # TODO: adjust da#'/home/user/nbodenmann/m2nlp/medi-magma/data'ta
+    eval_dataset_dir: '/srv/scratch1/nbodenmann/prepared_iu-xtray/validate', # TODO: adjust data
     
-    save: "checkpoints/medimagma_firstfullmimic", #"checkpoints/medi_magma_first_trials", 
+    save: "checkpoints/medimagma_finetuned_x-iur", #"checkpoints/medi_magma_first_trials", 
     save_every: 100,
-    # load: "checkpoints/medi_magma_first_trials",
+    load: "checkpoints/medimagma_firstfullmimic/global_step1000",
+    load_optimizer: false,
 
-    eval_every: 50,
+    eval_every: 100,
 
 }
