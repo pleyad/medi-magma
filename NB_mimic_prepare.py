@@ -11,6 +11,8 @@ from typing import Generator, Tuple, List, Dict, Any, Optional
 import pandas as pd
 from magma.datasets.convert_datasets import convert_dataset
 
+# Set visible CUDAs to empty
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 DATAROOT = Path("/srv/scratch1/nbodenmann/mimic-cxr/physionet.org/files/mimic-cxr-jpg/2.0.0/")
 
@@ -153,7 +155,7 @@ class dataset_iterator():
 def create_toy_dataset():
 
     convert_dataset(
-        data_dir=Path("/home/user/vbernhard/medi-magma/data"),
+        data_dir=Path("/home/user/nbodenmann/m2nlp/medi-magma"),
         mode="cp",
         ds_iterator=dataset_iterator(
             toy=True,
@@ -178,8 +180,8 @@ def create_real_dataset():
     )
 
 def main():
-    # create_toy_dataset()
-    create_real_dataset()
+    create_toy_dataset()
+    # create_real_dataset()
 
 if __name__ == "__main__":
     main()
