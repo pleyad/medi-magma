@@ -74,17 +74,16 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
                     gold_row = [id, study_id, report_gold, img_path]
                     gold_writer.writerow(gold_row)
                     inputs = [
-                        ImageInput(os.path.join(test_data.data_dir, img_path)),
+                        os.path.join(test_data.data_dir, img_path),
                         test_data.prompt]
-                    embeddings = model.preprocess_inputs(inputs)  
+                    embeddings = model.preprocess_inputs(inputs)
                     output = model.generate(
                         embeddings = embeddings,
                         max_steps = 100,
                         temperature = 0.7, # TODO: Check what this is??
                         top_k = 0,
                         single_gpu = True,
-                    )  
-
+                    ) 
                     report_pred = output[0]
                     pred_row = [id, study_id, report_pred, img_path]
                     pred_writer.writerow(pred_row)
