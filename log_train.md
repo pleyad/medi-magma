@@ -38,9 +38,11 @@ deepspeed --include localhost:5,6,7 train.py --config MAGMA_medi_biomedlm.yml
 ### First full mimix CXR training - some facts
 
 * Number of training/evaluation samples: ?
---> load again to see
+train:202922
+eval: 1654 
 --> compare training step to actually epoch notion
 * Batch size: 24
+* Number of samples the model has seen: 24*2400 = 57600 (28% of all data)
 * Number of training steps: 2400
 * Training time for training step: 55.69s
 * Inference time for one example: 3 minutes
