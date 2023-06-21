@@ -5,9 +5,12 @@ wandb/*
 aws*
 # VB addons
 *_venv/
-checkpoints/
-model/
+model/*
+!model/.gitkeep
+checkpoints/*
+!checkpoints/.gitkeep
 
 # NB addons
 .python-version
-data/
+data/*
+!data/.gitkeep
