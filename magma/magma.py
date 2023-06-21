@@ -251,7 +251,8 @@ class Magma(nn.Module):
         top_k: int = 0,
         top_p: float = 0.9,
         decode: bool = True,
-        single_gpu = False
+        single_gpu = False,
+        progress_bar = True
     ):
         """
         Generates captions for a batch of embeddings.
@@ -265,7 +266,8 @@ class Magma(nn.Module):
             top_k=top_k,
             top_p=top_p,
             decode=decode,
-            single_gpu=single_gpu
+            single_gpu=single_gpu,
+            progress_bar = progress_bar
         )
 
     def forward(

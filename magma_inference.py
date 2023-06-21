@@ -18,8 +18,7 @@ MODEL_PATH = 'model/medimagma_firstfullmimic'
 PREDICTION_PATH = 'predictions'
 TEST_DATA_PATH = '/srv/scratch1/nbodenmann/prepared_mimic-cxr/test_with_study_id'
 WEIGHT_EXTRACTION = os.path.join(CHECKPOINT_PATH, 'zero_to_fp32.py')
-GPU = 'cuda:5'
-
+GPU = 'cuda:6'
 
 current_model_tag = None
 
@@ -28,6 +27,7 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
         if folder.startswith('global_step'):
             folder_path = os.path.join(root, folder)
             current_model_tag = folder
+            print(f'Starting prediction for {current_model_tag}')
        
             model_name = f'{current_model_tag}_model.bin'
             model_path = os.path.join(MODEL_PATH, model_name)
@@ -58,6 +58,10 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
             prediction_csv = os.path.join(PREDICTION_PATH, f'predictions_{current_model_tag}.csv')
             gold_csv = os.path.join(PREDICTION_PATH, f'gold_{current_model_tag}.csv')
             
+            if os.path.exists(prediction_csv) and os.path.exists(gold_csv):
+                os.remove(prediction_csv)
+                os.remove(gold_csv)
+
             with open(gold_csv, 'a') as gold, open(prediction_csv, 'a') as pred:
                 gold_writer = csv.writer(gold, delimiter=";")
                 pred_writer = csv.writer(pred, delimiter=";")
@@ -65,7 +69,7 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
                 gold_writer.writerow(header)
                 pred_writer.writerow(header)
                 id = 0
-                while id < len(test_data):
+                for id in tqdm(range(len(test_data)), desc=f"Prection {current_model_tag}"):
                     # Gold Data
                     # TODO: Fix this misuse of ImgCptDataset, works quick and dirty as of now
                     study_id = test_data.data[id]['metadata']['study_id']
@@ -84,6 +88,7 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
                             temperature = 0.7, # TODO: Check what this is??
                             top_k = 0,
                             single_gpu = True,
+                            progress_bar = False,
                         ) 
                         report_pred = output[0]
                     except RuntimeError as e:
