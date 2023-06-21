@@ -251,6 +251,7 @@ class Magma(nn.Module):
         top_k: int = 0,
         top_p: float = 0.9,
         decode: bool = True,
+        single_gpu = False
     ):
         """
         Generates captions for a batch of embeddings.
@@ -264,6 +265,7 @@ class Magma(nn.Module):
             top_k=top_k,
             top_p=top_p,
             decode=decode,
+            single_gpu=single_gpu
         )
 
     def forward(
@@ -318,12 +320,14 @@ class Magma(nn.Module):
             print_main(f'checkpoint: {checkpoint_path} does not exist, downloading model')
             download_checkpoint(checkpoint_url = checkpoint_url, save_as = checkpoint_path)
 
-        model = cls(config = config_path)
+        # creates a magma instance, why though?
+        model = cls(config = config_path, device=device)
 
-        sd = torch.load(checkpoint_path, map_location=torch.device("cpu"))
+        # how to load different rank checkpoints
+        sd = torch.load(checkpoint_path, map_location=device)
         if "module" in sd.keys():
             sd = sd["module"]
-
+        
         print_main(f'loading magma checkpoint from: {checkpoint_path}')
         model.load_state_dict(sd, strict=False)
         print_main("magma successfully loaded")

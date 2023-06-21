@@ -6,6 +6,7 @@ aws*
 # VB addons
 *_venv/
 checkpoints/
+model/
 
 # NB addons
 .python-version
