@@ -16,7 +16,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 DATAROOT = Path("/srv/scratch1/nbodenmann/mimic-cxr/physionet.org/files/mimic-cxr-jpg/2.0.0/")
 
-def report_image_generator(dataroot: Path, duplicate_reports=False):
+def report_image_generator(dataroot: Path, duplicate_reports=False, split="train"):
     """Iterate over all reports and images in the MIMIC-CXR dataset.
 
     By standard, only one AP is used per study. If duplicate_reports is True, all
@@ -28,6 +28,9 @@ def report_image_generator(dataroot: Path, duplicate_reports=False):
         duplicate_reports (bool): If True, duplicate reports for studies with multiple
             images. If False (default), only use the first report for studies with
             multiple images.
+        split (str): Split of the dataset to use. Can be "train", "validate" or
+            "test".
+
             
     Yields:
         report_path (str): Path to the report.
@@ -35,6 +38,14 @@ def report_image_generator(dataroot: Path, duplicate_reports=False):
     """
 
     df = pd.read_csv(dataroot / "mimic-cxr-2.0.0-metadata.csv")
+
+    split_df = pd.read_csv(dataroot / "mimic-cxr-2.0.0-split.csv")
+    split_df = split_df[split_df["split"] == split]["dicom_id"]
+
+    df = df.merge(split_df, on="dicom_id")
+
+    print(len(df))
+
     # Iterate over all rows of a patient
     for patient_id, patient_images in df.groupby('subject_id'):
         # Iterate over all studies of a patient
@@ -55,7 +66,13 @@ def report_image_generator(dataroot: Path, duplicate_reports=False):
                 image_path =  dataroot / f"files/p{str(patient_id)[:2]}" / f"p{patient_id}" / f"s{study_id}" / f"{dicom_id}.jpg"
                 report_path = dataroot / f"files/p{str(patient_id)[:2]}" / f"p{patient_id}" / f"s{study_id}.txt"
 
-                yield report_path, image_path
+                metadata = {
+                    "patient_id": patient_id,
+                    "study_id": study_id,
+                    "dicom_id": dicom_id,
+                }
+
+                yield report_path, image_path, metadata
 
 section_re = re.compile(r"\s*([A-Z ]+):(.*)")
 white_re = re.compile(r"\s+")
@@ -108,8 +125,13 @@ def extract_caption(report_path: Path) -> Optional[str]:
 
 class dataset_iterator():
 
-    def __init__(self, toy: bool, dataroot: Path, length=None) -> None:
+    def __init__(self, dataroot: Path, toy: bool, length=None, split="train") -> None:
         """Iterate over the dataset and yield the image and caption for each study.
+
+        Args:
+            dataroot (str): Path to the MIMIC-CXR dataset.
+            toy (bool): If True, only iterate over the first 1000 images.
+            length (int): Length of the dataset. If None, calculate the length.
 
         Yields:
             img_path (Path): Path to the image.
@@ -118,12 +140,13 @@ class dataset_iterator():
         self.toy = toy
         self.data_root = Path(dataroot)
         self.length = length
+        self.split = split
 
     def __iter__(self) -> Generator[Tuple[Path, Dict[str, Any]], None, None]:
 
         n = 0
 
-        for report_path, img_path in report_image_generator(self.data_root, duplicate_reports=False):
+        for report_path, img_path, metadata in report_image_generator(self.data_root, duplicate_reports=False, split=self.split):
             
             if self.toy and n > 1000:
                 break
@@ -132,7 +155,7 @@ class dataset_iterator():
 
             if caption:
                 n += 1
-                yield img_path, {"caption": caption, "metadata": {}}
+                yield img_path, {"caption": caption, "metadata": metadata}
                 print(f"Yielded {n} images.", end="\r")
             else:
                 continue
@@ -171,17 +194,18 @@ def create_toy_dataset():
 def create_real_dataset():
     
     convert_dataset(
-        data_dir=Path("/srv/scratch1/nbodenmann/prepared_mimic-cxr"),
+        data_dir=Path("/srv/scratch1/nbodenmann/prepared_mimic-cxr/test_with_study_id"),
         mode="cp",
         ds_iterator=dataset_iterator(
             toy=False,
             dataroot=DATAROOT,
+            split="test",
         ),
     )
 
 def main():
-    create_toy_dataset()
-    # create_real_dataset()
+    # create_toy_dataset()
+    create_real_dataset()
 
 if __name__ == "__main__":
     main()
