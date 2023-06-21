@@ -12,10 +12,10 @@ import subprocess
 import csv
 from tqdm import tqdm
 
-CONFIG_PATH = '/home/user/vbernhard/medi-magma/configs/MAGMA_medi_biomedlm.yml'
-CHECKPOINT_PATH = '/home/user/vbernhard/medi-magma/checkpoints/medimagma_firstfullmimic'
-MODEL_PATH = '/home/user/vbernhard/medi-magma/model/medimagma_firstfullmimic'
-PREDICTION_PATH = '/home/user/vbernhard/medi-magma/predictions'
+CONFIG_PATH = 'configs/MAGMA_medi_biomedlm.yml'
+CHECKPOINT_PATH = 'checkpoints/medimagma_firstfullmimic'
+MODEL_PATH = 'model/medimagma_firstfullmimic'
+PREDICTION_PATH = 'predictions'
 TEST_DATA_PATH = '/srv/scratch1/nbodenmann/prepared_mimic-cxr/test_with_study_id'
 WEIGHT_EXTRACTION = os.path.join(CHECKPOINT_PATH, 'zero_to_fp32.py')
 GPU = 'cuda:5'
