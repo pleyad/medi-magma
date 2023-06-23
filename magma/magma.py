@@ -44,11 +44,11 @@ class Magma(nn.Module):
             "cuda" if torch.cuda.is_available() else "cpu"
         )
         self.config = config
-        # self.lm = get_gptj() #.to(self.device)
+        # self.lm = get_gptj() #.to(self.device) # uncomment to use GPT-J
         self.lm = load_lm(config.lm_name).to(self.device)
         self.seq_len = self.lm.config.max_position_embeddings
 
-        # self.tokenizer = get_tokenizer("gpt2", sequence_length=self.seq_len) #TODO: LM
+        # self.tokenizer = get_tokenizer("gpt2", sequence_length=self.seq_len) # uncomment to use GPT-J
         self.tokenizer = get_tokenizer(config.lm_name, sequence_length=self.seq_len)
         self.image_token = self.tokenizer.cls_token_id
         self.eos_token = self.tokenizer.eos_token_id
@@ -56,19 +56,23 @@ class Magma(nn.Module):
         self.lm.config.pad_token_id = self.tokenizer.eos_token_id
 
         # if BERT model
-        if self.lm.config.model_type == 'distilbert':
-            self.word_embedding = self.lm.embeddings.word_embeddings.to(self.device)  
-            self.transformer = self.lm.transformer.layer
+        # if self.lm.config.model_type == 'distilbert':
+        #     self.word_embedding = self.lm.embeddings.word_embeddings.to(self.device)  
+        #     self.transformer = self.lm.transformer.layer
       
         # if GPT2 model
-        elif self.lm.config.model_type == 'gpt2':
-            self.word_embedding = self.lm.wte.to(self.device)
-            self.transformer = self.lm.h
+        # elif self.lm.config.model_type == 'gpt2':
+        #     self.word_embedding = self.lm.wte.to(self.device)
+        #     self.transformer = self.lm.h
 
         # if GPTNeo model
-        elif self.lm.config.model_type == 'gpt-neo':        
-            self.word_embedding = self.lm.transformer.wte.to(self.device)    
-            self.transformer = self.lm.transformer.h
+        # if self.lm.config.model_type in ['gpt-neo, gpt2']:
+            # self.word_embedding = self.lm.transformer.wte.to(self.device)    
+            # self.transformer = self.lm.transformer.h
+            
+        self.word_embedding = self.lm.transformer.wte.to(self.device)    
+        self.transformer = self.lm.transformer.h
+
 
         # adapter settings
         self.mlp_adapter_added, self.attn_adapter_added = False, False
@@ -90,10 +94,17 @@ class Magma(nn.Module):
         # add adapters
         if config.adapter_config:
             mlp_config = deepcopy(config.adapter_config.get("mlp", None))
+            if self.lm.config.model_type == 'distilbert':
+                location = 'ffn'
+                ff_attr = 'ffn'
+            else:
+                location = 'mlp'
+                ff_attr = 'mlp'
             if mlp_config:
                 assert mlp_config.get("adapter_type") is not None
                 self.add_adapters(
-                    location="mlp",
+                    location=location,
+                    ff_attr=ff_attr,
                     adapter_type=mlp_config.pop("adapter_type"),
                     downsample_factor=mlp_config.pop("downsample_factor", 4),
                     **mlp_config,
@@ -103,6 +114,7 @@ class Magma(nn.Module):
                 assert attn_config.get("adapter_type") is not None
                 self.add_adapters(
                     location="attention",
+                    ff_attr=ff_attr,
                     adapter_type=attn_config.pop("adapter_type"),
                     **attn_config,
                 )
@@ -121,7 +133,7 @@ class Magma(nn.Module):
         self,
         downsample_factor: int = 4,
         adapter_type: Literal["normal", "parallel", "scaled_parallel"] = "normal",
-        location: Literal["mlp", "attention"] = "mlp",
+        location: Literal["mlp", "attention", "ffn"] = "mlp",
         ff_attr: str = "mlp",
         attn_attr: str = "attn",
         **adapter_kwargs,
@@ -137,10 +149,11 @@ class Magma(nn.Module):
         assert location in [
             "mlp",
             "attention",
-        ], "location must be one of 'mlp' or 'attention'"
+            "ffn"
+        ], "location must be one of 'mlp' (or 'ffn') or 'attention'"
 
         for l in range(len(self.transformer)):
-            if location == "mlp":
+            if location == "mlp" or location == 'ffn':
                 if self.mlp_adapter_added:
                     raise ValueError("Adapter layer already added")
                 mlp = getattr(self.transformer[l], ff_attr)
@@ -238,6 +251,8 @@ class Magma(nn.Module):
         top_k: int = 0,
         top_p: float = 0.9,
         decode: bool = True,
+        single_gpu = False,
+        progress_bar = True
     ):
         """
         Generates captions for a batch of embeddings.
@@ -251,6 +266,8 @@ class Magma(nn.Module):
             top_k=top_k,
             top_p=top_p,
             decode=decode,
+            single_gpu=single_gpu,
+            progress_bar = progress_bar
         )
 
     def forward(
@@ -305,12 +322,14 @@ class Magma(nn.Module):
             print_main(f'checkpoint: {checkpoint_path} does not exist, downloading model')
             download_checkpoint(checkpoint_url = checkpoint_url, save_as = checkpoint_path)
 
-        model = cls(config = config_path)
+        # creates a magma instance, why though?
+        model = cls(config = config_path, device=device)
 
-        sd = torch.load(checkpoint_path, map_location=torch.device("cpu"))
+        # how to load different rank checkpoints
+        sd = torch.load(checkpoint_path, map_location=device)
         if "module" in sd.keys():
             sd = sd["module"]
-
+        
         print_main(f'loading magma checkpoint from: {checkpoint_path}')
         model.load_state_dict(sd, strict=False)
         print_main("magma successfully loaded")

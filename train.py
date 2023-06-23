@@ -4,6 +4,7 @@ import deepspeed
 import wandb
 from torch.utils.data import random_split, ConcatDataset
 from torch.optim import AdamW
+from deepspeed.ops.adam import DeepSpeedCPUAdam
 from tqdm import tqdm
 from functools import partial
 from magma.datasets import (
@@ -31,13 +32,13 @@ from magma.train_loop import (
 )
 
 
-def _load_img_cpt_datasets(dataset_dir, tokenizer, transforms):
+def _load_img_cpt_datasets(dataset_dir, tokenizer, transforms, prompt: str):
     if isinstance(dataset_dir, (list, tuple)):
         return ConcatDataset(
-            [_load_img_cpt_datasets(d, tokenizer, transforms) for d in dataset_dir]
+            [_load_img_cpt_datasets(d, tokenizer, transforms, prompt) for d in dataset_dir]
         )
     elif isinstance(dataset_dir, str):
-        return ImgCptDataset(dataset_dir, tokenizer=tokenizer, transforms=transforms)
+        return ImgCptDataset(dataset_dir, tokenizer=tokenizer, transforms=transforms, prompt=prompt)
     else:
         raise TypeError("dataset dir wrong type")
 
@@ -45,7 +46,7 @@ def _load_img_cpt_datasets(dataset_dir, tokenizer, transforms):
 def get_pretraining_datasets(config, tokenizer, transforms):
     # if config.train_dataset_dir is a list, load all datasets + join together
     train_dataset = _load_img_cpt_datasets(
-        config.train_dataset_dir, tokenizer, transforms
+        config.train_dataset_dir, tokenizer, transforms, config.prompt
     )
     # if no dedicated eval sets are given, use a percentage of the train dataset
     if config.eval_dataset_dir is None:
@@ -57,7 +58,7 @@ def get_pretraining_datasets(config, tokenizer, transforms):
         train_dataset, eval_dataset = random_split(train_dataset, [train_len, eval_len])
     else:
         eval_dataset = _load_img_cpt_datasets(
-            config.eval_dataset_dir, tokenizer, transforms
+            config.eval_dataset_dir, tokenizer, transforms, config.prompt
         )
 
     print_main(f"Loaded train dataset with {len(train_dataset)} samples")
@@ -99,6 +100,12 @@ if __name__ == "__main__":
         betas=(0.9, 0.95),
         weight_decay=config.weight_decay,
     )
+    # opt = DeepSpeedCPUAdam(
+    #     trainable_parameters,
+    #     config.lr,
+    #     betas=(0.9, 0.95),
+    #     weight_decay=config.weight_decay,
+    # )
 
     model_engine, opt, train_loader, lr_scheduler = deepspeed.initialize(
         args=args,
@@ -135,15 +142,15 @@ if __name__ == "__main__":
     )
     wandb_init(
         project=config.wandb_project,
-        name=config.name or wandb.util.generate_id(),
+        # name=config.name or wandb.util.generate_id(),
         config=config,
     )
+    model_engine.train()
 
     # training loop
     for i in pbar:
         if global_step >= config.train_steps:
             break
-
         ##### train step
         loss = train_step(config, train_loader, model_engine)
 
@@ -156,7 +163,8 @@ if __name__ == "__main__":
                 if lr_scheduler is not None
                 else config.lr
             )
-            to_log = {"train/loss": loss, "train/lr": current_lr}
+            avg_lr = sum(current_lr)/len(current_lr)
+            to_log = {"train/loss": loss, "train/lr": avg_lr}
             wandb_log(to_log, step=global_step)
 
         ##### Evaluation phase

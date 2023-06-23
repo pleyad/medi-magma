@@ -1,0 +1,33 @@
+{
+    # image encoder settings
+    encoder_name: 'clip_resnet_large',
+    adapter_config: {"mlp": {"adapter_type": "normal", "downsample_factor": 4}},
+    freeze_img_encoder: false,
+    
+    # train settings 
+    batch_size: 240,
+    train_steps: 150000,
+    lr: 8.0e-4,
+    min_lr: 0.0,
+    lr_decay_iters: 300000,
+    image_enc_lr: 2.0e-6,
+    use_image_embed_layernorm: true,
+    image_embed_dropout_prob: 0.1, 
+    image_size: 384,
+    
+    gradient_accumulation_steps: 8,
+    zero_stage: 2,
+    gradient_clipping: 1.0,
+
+    # dataset / save / load settings
+    train_dataset_name: 'toy_dataset', # TODO: adjust data
+    train_dataset_dir: '/home/user/vbernhard/medi-magma/data', # TODO: adjust data
+    # eval_dataset_name: 'coco', # TODO: adjust data
+    # eval_dataset_dir: '/mnt/localdisk/coco_data', # TODO: adjust data
+    
+    save: "checkpoints/medi_magma_first_trials", 
+    # load: "checkpoints/medi_magma_first_trials",
+
+    eval_every: 100,
+
+}

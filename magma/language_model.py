@@ -1,5 +1,5 @@
 import torch
-from transformers import GPTNeoForCausalLM, AutoConfig, GPT2LMHeadModel, AutoTokenizer, AutoModel
+from transformers import GPTNeoForCausalLM, AutoConfig, GPT2LMHeadModel, AutoTokenizer, AutoModel, AutoModelForCausalLM
 from .utils import print_main
 from pathlib import Path
 from transformers.modeling_utils import no_init_weights
@@ -53,5 +53,5 @@ def get_gptj(
 
 def load_lm(lm: str):
     print(f'Loading {lm} language model...')
-    model = AutoModel.from_pretrained(lm)
+    model = AutoModelForCausalLM.from_pretrained(lm)
     return model

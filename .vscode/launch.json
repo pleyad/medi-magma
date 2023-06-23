@@ -8,6 +8,7 @@
             "name": "Python: Train",
             "type": "python",
             "request": "launch",
+            "justMyCode": false,
             "program": "${workspaceFolder}/train.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
@@ -19,6 +20,26 @@
                 "PYTHONPATH": "${workspaceFolder}",
                 "PATH": "${workspaceFolder}/magma_venv/bin:${env:PATH}"
             }
-        }
+        },
+        {
+            "name": "Python: Debug DeepSpeed",
+            "type": "python",
+            "request": "launch",
+            "program": "/home/user/vbernhard/medi-magma/magma_venv/bin/deepspeed",
+            "justMyCode": false,
+            "console": "integratedTerminal",
+            "args": [
+                "--include",
+                "localhost:7",
+                "/home/user/vbernhard/medi-magma/train.py",
+                "--config",
+                "MAGMA_medi_biomedlm.yml"                                                    
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+                "PATH": "${workspaceFolder}/magma_venv/bin:${env:PATH}"
+            }
+        },
+ 
     ]
 }

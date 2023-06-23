@@ -5,6 +5,12 @@ aws*
 # VB addons
 *_venv/
 predictions/*
+model/*
+!model/.gitkeep
+checkpoints/*
+!checkpoints/.gitkeep
+
 # NB addons
 .python-version
-data/
+data/*
+!data/.gitkeep

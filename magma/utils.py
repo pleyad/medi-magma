@@ -47,16 +47,19 @@ def get_tokenizer(name="gpt2", sequence_length=2048):
     """
     if name == "gpt2":
         tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
-        tokenizer.pad_token_id = tokenizer.eos_token
-        tokenizer.padding_side = "right"
-        tokenizer.model_max_length = sequence_length
-        # setup lm settings
-        tokenizer.add_special_tokens(
-            {"cls_token": "<|image|>"}
-        )  # add special image token to tokenizer
+       
     else:
-        tokenizer = AutoTokenizer.from_pretrained(name)
         # TODO: check if tokenizer config needs to set as above
+        tokenizer = AutoTokenizer.from_pretrained(name)
+         
+    tokenizer.pad_token_id = tokenizer.eos_token
+    tokenizer.padding_side = "right"
+    tokenizer.model_max_length = sequence_length
+    # setup lm settings
+    tokenizer.add_special_tokens(
+        {"cls_token": "<|image|>"}
+    )  # add special image token to tokenizer
+       
     return tokenizer
 
 
@@ -132,13 +135,18 @@ def get_params_for_weight_decay_optimization(module, config):
         if isinstance(module_, blacklist_modules) or (
             config.weight_decay == 0.0
         ):  # also include all parameters here if no weight decay is being done
-            no_weight_decay_params["params"].extend(
-                [
+            params_extend = [
                     p
                     for p in list(module_._parameters.values())
                     if (p is not None) and p.requires_grad
                 ]
-            )
+            for param in params_extend:
+                param_ids = [id(p) for p in no_weight_decay_params["params"]]
+                if id(param) not in param_ids:
+                    no_weight_decay_params["params"].extend(
+                    params_extend
+                    )
+                           
         else:
             for n, p in list(module_._parameters.items()):
                 if p is not None and p.requires_grad:

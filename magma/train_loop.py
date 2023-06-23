@@ -87,8 +87,11 @@ def inference_step(config, eval_loader, model_engine):
     images = images.half().cuda()
     if config.run_blind:
         images = torch.zeros_like(images)
-    captions = model_engine(
-        images, captions=None, inference=True
+    encoded_prompt = model_engine.tokenizer.encode(config.prompt, return_tensors="pt")
+    inputs = [images, encoded_prompt]
+    inputs = model_engine.embed(inputs)
+    captions = model_engine.generate(
+        inputs
     )  # [caption1, caption2, ... b]
     width = min(2, images.shape[0])
     image_grid = make_grid(images[:width])

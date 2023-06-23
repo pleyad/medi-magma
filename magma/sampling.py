@@ -2,6 +2,8 @@ import torch
 import torch.nn.functional as F
 from torchtyping import TensorType
 from typing import Union, List
+from tqdm import tqdm
+import torch.distributed as dist
 
 
 def top_p_filter(logits: TensorType[..., "vocab"], threshold: float = 0.9):
@@ -50,6 +52,8 @@ def generate(
     top_p: float = 0.9,
     eos_token: int = None,
     decode: bool = True,
+    single_gpu = False,
+    progress_bar = True,
 ) -> Union[List[str], TensorType["b", "s"]]:
     """
     Generates captions for a batch of embeddings.
@@ -73,9 +77,11 @@ def generate(
 
     # init output with image tokens
     out = torch.zeros((b, s), dtype=torch.long).to(model.device) + model.image_token
-
+    if progress_bar:
+        pbar = tqdm(total=max_steps, desc='Sampling Progress')
     # do sampling
-    for i in range(max_steps):
+    for i in range(max_steps):        
+        
         if i == 0:
             # initial input
             outputs = model.lm(
@@ -105,10 +111,27 @@ def generate(
             next_token = torch.multinomial(probs, num_samples=1)
 
         out = torch.cat((out, next_token), dim=-1)
+        
+        eos_found = (eos_token is not None) and (next_token == eos_token).all()
 
-        if eos_token is not None and (next_token == eos_token).all():
-            break
-
+        # Problem here: With zerostage 3, if one rank encounters an EOS earlier than the others, it breaks earlier
+        # and since the ranks have a different status, it will all freze
+        # Solution: only make rank break, if all other ranks have broken too --> but has as a consquence that all ranks produce same output length
+        # made according to how the synced_gpus=true parameters is used to handle this issue in hugginface
+        # https://github.com/huggingface/transformers/blob/ba3fb4b8d72b9202423cda01896349a883480d2e/src/transformers/generation/utils.py#L2606
+        
+        if not single_gpu: 
+            this_peer_finished_flag = torch.tensor(0.0 if eos_found else 1.0).to(model.device)
+            # Send 0.0 if we finished, 1.0 otherwise
+            dist.all_reduce(this_peer_finished_flag, op=dist.ReduceOp.SUM)
+            # Did all peers finish? The reduced sum will be 0.0 then
+            if this_peer_finished_flag.item() == 0.0:
+                break
+        else:
+            if eos_found:
+                break
+        if progress_bar:
+            pbar.update(1)
     if decode:
         captions = []
         for b in out:

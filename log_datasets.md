@@ -35,6 +35,11 @@
 
 29.04: I am currently downloading it to rattle, into `/srv/scratch1/bodenmann/mimic-cxr`.
 
+03.05: ⚠️ The reports are only pseudo-structured, and keys are not consistent across reports.
+Furthermore, the IMPRESSION section makes clear that the reports make reference and comparison to previous reports.
+Additionally, sometiomes multiple images are connected to the same report.
+We need to assume that both images were necessary for the doctores and doctoressas to come up with the report.
+
 ### MS-CXR
 
 - paper: https://arxiv.org/pdf/2204.09817.pdf

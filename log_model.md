@@ -41,6 +41,26 @@ GPT2Config {
   "vocab_size": 28896
 }
 
+size: 10.7 GB
+
+self.transformer
+
+(1): GPT2Block(
+    (ln_1): LayerNorm((2560,), eps=1e-05, elementwise_affine=True)
+    (attn): GPT2Attention(
+      (c_attn): Conv1D()
+      (c_proj): Conv1D()
+      (attn_dropout): Dropout(p=0.1, inplace=False)
+      (resid_dropout): Dropout(p=0.1, inplace=False)
+    )
+    (ln_2): LayerNorm((2560,), eps=1e-05, elementwise_affine=True)
+    (mlp): GPT2MLP(
+      (c_fc): Conv1D()
+      (c_proj): Conv1D()
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+  )
+
 ### BERT Config
 DistilBertConfig {
   "_name_or_path": "medicalai/ClinicalBERT",
@@ -67,8 +87,30 @@ DistilBertConfig {
   "vocab_size": 119547
 }
 
+self.transformer
+TransformerBlock(
+  (attention): MultiHeadSelfAttention(
+    (dropout): Dropout(p=0.1, inplace=False)
+    (q_lin): Linear(in_features=768, out_features=768, bias=True)
+    (k_lin): Linear(in_features=768, out_features=768, bias=True)
+    (v_lin): Linear(in_features=768, out_features=768, bias=True)
+    (out_lin): Linear(in_features=768, out_features=768, bias=True)
+  )
+  (sa_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+  (ffn): FFN(
+    (dropout): Dropout(p=0.1, inplace=False)
+    (lin1): Linear(in_features=768, out_features=3072, bias=True)
+    (lin2): Linear(in_features=3072, out_features=768, bias=True)
+  )
+  (output_layer_norm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+)
+
+
 Masked Language Model
 - has access to token left to right
+
+542 MB
+
 
 ### GPT-j config
 GPTNeoConfig {
@@ -150,10 +192,6 @@ GPTNeoConfig {
   "vocab_size": 50400,
   "window_size": 256
 }
-
-
-self.transformer = self.lm.transformer.h
-
 
 Causal Language Model:
 - can only see token to left 

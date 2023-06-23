@@ -41,6 +41,7 @@ class MultimodalConfig:
     run_blind: bool = False
     fine_tune: bool = False
     load_optimizer: bool = True
+    prompt: str = ''
 
     # Checkpointing:
     # ------------------------------------------------------------
@@ -51,9 +52,9 @@ class MultimodalConfig:
     # Data:
     # ------------------------------------------------------------
     train_dataset_name: str = "conceptual_captions"
-    eval_dataset_name: str = "/data/conceptual_captions"
+    eval_dataset_name: str = None
     train_dataset_dir: str = "/data/coco_data"
-    eval_dataset_dir: str = "/data/coco_data"
+    eval_dataset_dir: str = None
     eval_dataset_pct: float = 0.1
 
     # Model architecture:
@@ -125,13 +126,32 @@ class MultimodalConfig:
             "train_batch_size": self.batch_size,
             "gradient_accumulation_steps": self.gradient_accumulation_steps,
             "gradient_clipping": self.gradient_clipping,
-            "fp16": {"enabled": True, "loss_scale_window": 250},
+            "bf16": {"enabled": True, "loss_scale_window": 250},
             "scheduler": self.scheduler_dict,
             "zero_optimization": {
                 "stage": self.zero_stage,
                 "load_from_fp32_weights": False,
+                 "offload_optimizer": {
+                    "device": "cpu",
+                    "pin_memory": True
+                },
+                "offload_param": {
+                    "device": "cpu",
+                    "pin_memory": True
+                },
+                "overlap_comm": True,
+                "contiguous_gradients": True,
+                "sub_group_size": 1e9,
+                "reduce_bucket_size": "auto",
+                "stage3_prefetch_bucket_size": "auto",
+                "stage3_param_persistence_threshold": "auto",
+                "stage3_max_live_parameters": 1e9,
+                "stage3_max_reuse_distance": 1e9,
+                "stage3_gather_16bit_weights_on_model_save": True
             },
+            "zero_force_ds_cpu_optimizer": False,
         }
+        
 
         if self.name is None:
             self.name = str(uuid.uuid4())[:8]
