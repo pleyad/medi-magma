@@ -9,6 +9,8 @@ model/*
 !model/.gitkeep
 checkpoints/*
 !checkpoints/.gitkeep
+predictions/*
+!predictions/.gitkeep
 
 # NB addons
 .python-version
