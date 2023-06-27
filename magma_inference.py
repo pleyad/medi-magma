@@ -12,13 +12,13 @@ import subprocess
 import csv
 from tqdm import tqdm
 
-CONFIG_PATH = 'configs/MAGMA_medi_biomedlm.yml'
-CHECKPOINT_PATH = 'checkpoints/medimagma_firstfullmimic'
-MODEL_PATH = 'model/medimagma_firstfullmimic'
-PREDICTION_PATH = 'predictions'
+CONFIG_PATH = 'configs/MAGMA_medi_biomedlm_mimic_x-iu.yml'
+CHECKPOINT_PATH = 'checkpoints/medimagma_mimic_iu'
+MODEL_PATH = 'model/medimagma_mimic_iu'
+PREDICTION_PATH = 'predictions/medimagma_mimic_iu'
 TEST_DATA_PATH = '/srv/scratch1/nbodenmann/prepared_mimic-cxr/test_with_study_id'
 WEIGHT_EXTRACTION = os.path.join(CHECKPOINT_PATH, 'zero_to_fp32.py')
-GPU = 'cuda:6'
+GPU = 'cuda:7'
 
 current_model_tag = None
 
@@ -27,7 +27,7 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
         if folder.startswith('global_step'):
             folder_path = os.path.join(root, folder)
             current_model_tag = folder
-            print(f'Starting prediction for {current_model_tag}')
+            print(f'Starting prediction for {current_model_tag}\n----------------------')
        
             model_name = f'{current_model_tag}_model.bin'
             model_path = os.path.join(MODEL_PATH, model_name)
@@ -36,6 +36,7 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
             # Use zero_to_fp32.py in the same directory as all step folders
             
             if not os.path.exists(model_path):
+                print("Extracting fp32 weights...")
                 command = ['python3', WEIGHT_EXTRACTION, CHECKPOINT_PATH, model_path, current_model_tag]
                 
                 process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
@@ -51,6 +52,7 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
                 checkpoint_path = model_path,
                 device = GPU
             )
+
             tokenizer, config, transforms = model.tokenizer, model.config, model.transforms
             test_data = ImgCptDataset(TEST_DATA_PATH, tokenizer, transforms, config.prompt)
             print(f"Loaded test dataset with {len(test_data)} samples")
@@ -85,7 +87,7 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
                         output = model.generate(
                             embeddings = embeddings,
                             max_steps = 100,
-                            temperature = 0.7, # TODO: Check what this is??
+                            temperature = 0.7,
                             top_k = 0,
                             single_gpu = True,
                             progress_bar = False,
@@ -100,3 +102,4 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
                     id +=1
 
             os.remove(model_path)
+            del model
