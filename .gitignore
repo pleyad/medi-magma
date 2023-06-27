@@ -1,10 +1,10 @@
 .vscode/settings.json
-.vscode/launch.json
 *.pyc
 wandb/*
 aws*
 # VB addons
 *_venv/
+predictions/*
 model/*
 !model/.gitkeep
 checkpoints/*
