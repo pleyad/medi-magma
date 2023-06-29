@@ -85,7 +85,9 @@ def create_plot(eval_csv: str, metrics_csv: str, run_name: str, ax: plt.Axes):
     plt.tight_layout()
     return fig
 
-def get_best_metrics(metrics_csv: str):
+def get_best_metrics(metrics_csv: str, run_name: str):
+    print(f'Run name: {run_name}:')
+
     max_metrics = ['mean_bleu', 'mean_bertscore', 'mean_sembscore', 'mean_radgraphcombined']
     min_metrics = ['mean_cxrmetric']
     
@@ -113,18 +115,19 @@ def get_best_metrics(metrics_csv: str):
         
     # Print out max values and corresponding steps
     for metric, value, step in zip(max_metrics, max_values, max_steps):
-        print(f'Max {metric}: {value} at step {step}')
+        print(f'\tMax {metric}: {value} at step {step}')
     
     # Print out min values and corresponding steps
     for metric, value, step in zip(min_metrics, min_values, min_steps):
-        print(f'Min {metric}: {value} at step {step}')
+        print(f'\tMin {metric}: {value} at step {step}')
 
 
 def get_best_eval_model(eval_csv: str, run_name: str):
+    print(f'Run name: {run_name}:')
     eval = pd.read_csv(eval_csv)
     min_eval_loss = eval[f'{run_name} - eval/loss'].min()
     min_eval_loss_step = eval[eval[f'{run_name} - eval/loss'] == min_eval_loss].iloc[0]['Step']
-    print(f'Min eval loss: {min_eval_loss} at step {min_eval_loss_step}')
+    print(f'\tMin eval loss: {min_eval_loss} at step {min_eval_loss_step}')
 
 if __name__ == "__main__":
 
@@ -134,7 +137,7 @@ if __name__ == "__main__":
     
     
     eval_csv_train2 = 'training2_evaluation.csv'
-    metrics_csv_train2 = 'training1_metrics.csv'
+    metrics_csv_train2 = 'training2_metrics.csv'
     run_name2 = 'denim-sound-65'
     
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), sharey=True)
@@ -162,8 +165,8 @@ if __name__ == "__main__":
     fig.figure.savefig('train1_train2_combined.png', bbox_inches='tight')
     
     
-    get_best_metrics(metrics_csv_train1)
-    get_best_metrics(metrics_csv_train2)
+    get_best_metrics(metrics_csv_train1, run_name1)
+    get_best_metrics(metrics_csv_train2, run_name2)
     
     get_best_eval_model(eval_csv_train1, run_name1)
     get_best_eval_model(eval_csv_train2, run_name2)
