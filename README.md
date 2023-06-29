@@ -17,5 +17,7 @@ Configs for 2. Training: `configs/MAGMA_medi_biomedlm_mimic.ym`
 Script used:
 * `medimagma_inference.py`
 
+### Evaluation
+
 ### Plots
-All material and code can be found in the `plots/` folder.
+All materials and code can be found in the `plots/` folder.
