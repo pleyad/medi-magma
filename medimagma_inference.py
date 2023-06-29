@@ -73,7 +73,6 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
                 id = 0
                 for id in tqdm(range(len(test_data)), desc=f"Prection {current_model_tag}"):
                     # Gold Data
-                    # TODO: Fix this misuse of ImgCptDataset, works quick and dirty as of now
                     study_id = test_data.data[id]['metadata']['study_id']
                     report_gold = test_data.data[id]['caption']
                     img_path = test_data.data[id]['image_path']
