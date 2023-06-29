@@ -1,5 +1,4 @@
-# MAGMA goes Medi: Multimodal Augmentation through Adapter-based Fine-tuning for
-Radiology Report Generation
+# MAGMA goes Medi: Multimodal Augmentation through Adapter-based Fine-tuning for Radiology Report Generation
 
 ### Data processing
 The scripts used for data preprocessing are:
