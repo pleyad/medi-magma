@@ -30,9 +30,9 @@
 
     # dataset / save / load settings
     train_dataset_name: 'mimic-iu-train', # TODO: adjust data
-    train_dataset_dir: '/srv/scratch1/nbodenmann/prepared_iuxray_mimic_combined/train', # TODO: adjust data
-    eval_dataset_name: 'mimic-val', # TODO: adjust da#'/home/user/nbodenmann/m2nlp/medi-magma/data'ta
-    eval_dataset_dir: '/srv/scratch1/nbodenmann/prepared_mimic-cxr/validate', # TODO: adjust data
+    train_dataset_dir: '<path>/prepared_iuxray_mimic_combined/train', # TODO: adjust data
+    eval_dataset_name: 'mimic-val', # TODO: adjust data
+    eval_dataset_dir: '<path>/prepared_mimic-cxr/validate', # TODO: adjust data
     
     save: "checkpoints/medimagma_mimic_iu", #"checkpoints/medi_magma_first_trials", 
     save_every: 100,
