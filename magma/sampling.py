@@ -83,7 +83,7 @@ def generate(
             # initial input
             outputs = model.lm(
                 inputs_embeds=embeddings,
-                use_cache=True,
+                use_cache=False,
                 past_key_values=past_key_values,
             )
         else:

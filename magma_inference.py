@@ -20,6 +20,11 @@ TEST_DATA_PATH = '/srv/scratch1/nbodenmann/prepared_mimic-cxr/test_with_study_id
 WEIGHT_EXTRACTION = os.path.join(CHECKPOINT_PATH, 'zero_to_fp32.py')
 GPU = 'cuda:5'
 
+if not os.path.exists(MODEL_PATH):
+    os.makedirs(MODEL_PATH, exist_ok=True)
+if not os.path.exists(PREDICTION_PATH):
+    os.makedirs(PREDICTION_PATH, exist_ok=True)
+
 
 current_model_tag = None
 
@@ -36,7 +41,8 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
             # Use zero_to_fp32.py in the same directory as all step folders
             
             if not os.path.exists(model_path):
-                command = ['python3', WEIGHT_EXTRACTION, CHECKPOINT_PATH, model_path, current_model_tag]
+
+                command = ['python3', WEIGHT_EXTRACTION, CHECKPOINT_PATH, model_path]#, current_model_tag]
                 
                 process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
                 # Wait for the process to finish and capture the output
@@ -92,6 +98,10 @@ for root, dirs, files in os.walk(CHECKPOINT_PATH):
                     pred_row = [id, study_id, report_pred, img_path]
                     pred_writer.writerow(pred_row)
                     
+                    # Directly write to file, don't store in buffer
+                    gold.flush()
+                    pred.flush()
+
                     id +=1
 
             os.remove(model_path)
