@@ -1,13 +1,18 @@
 .vscode/settings.json
-.vscode/launch.json
 *.pyc
 wandb/*
 aws*
 # VB addons
 *_venv/
-checkpoints/
-model/
+predictions/*
+model/*
+!model/.gitkeep
+checkpoints/*
+!checkpoints/.gitkeep
+predictions/*
+!predictions/.gitkeep
 
 # NB addons
 .python-version
-data/
+data/*
+!data/.gitkeep

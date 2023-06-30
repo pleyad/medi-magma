@@ -100,12 +100,6 @@ if __name__ == "__main__":
         betas=(0.9, 0.95),
         weight_decay=config.weight_decay,
     )
-    # opt = DeepSpeedCPUAdam(
-    #     trainable_parameters,
-    #     config.lr,
-    #     betas=(0.9, 0.95),
-    #     weight_decay=config.weight_decay,
-    # )
 
     model_engine, opt, train_loader, lr_scheduler = deepspeed.initialize(
         args=args,

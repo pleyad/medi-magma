@@ -36,11 +36,10 @@ deepspeed --include localhost:5,6,7 train.py --config MAGMA_medi_biomedlm.yml
 
 
 ### First full mimix CXR training - some facts
-
-* Number of training/evaluation samples: ?
-train:202922
+* 3 GPUs
+* Number of training/evaluation samples:
+train: 202922
 eval: 1654 
---> compare training step to actually epoch notion
 * Batch size: 24
 * Number of samples the model has seen: 24*2400 = 57600 (28% of all data)
 * Number of training steps: 2400
@@ -48,7 +47,17 @@ eval: 1654
 * Inference time for one example: 3 minutes
 * Total training time: 42h 43 minute 
 * Checkpoints saved every 100 training steps
+* Eval every 50
+* Checkpoint with lowest eval: 1250 but not saved only eval -> 1000 best?
 
-
-### Fine tune previous training with IU-Xray
-* Chose checkpoints from training with lowest eval: 1000 (?)
+## Full mimic and x-iu data (alternately)
+* 6 GPUS
+* Number of training/evaluation samples:
+train: 210970 samples
+eval: 1654 samples
+* Batch size: 56
+* Number of samples the model has seen: 56*1700 = 95200 (45% of all data)
+* Number of training steps: 1700
+* Total training time: ~ 100h
+* Checkpoints saved every 100 training steps
+* Eval every 50

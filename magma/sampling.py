@@ -53,6 +53,7 @@ def generate(
     eos_token: int = None,
     decode: bool = True,
     single_gpu = False,
+    progress_bar = True,
 ) -> Union[List[str], TensorType["b", "s"]]:
     """
     Generates captions for a batch of embeddings.
@@ -76,9 +77,11 @@ def generate(
 
     # init output with image tokens
     out = torch.zeros((b, s), dtype=torch.long).to(model.device) + model.image_token
-
+    if progress_bar:
+        pbar = tqdm(total=max_steps, desc='Sampling Progress')
     # do sampling
-    for i in tqdm(range(max_steps), desc='Sampling Progress'):        
+    for i in range(max_steps):        
+        
         if i == 0:
             # initial input
             outputs = model.lm(
@@ -127,7 +130,8 @@ def generate(
         else:
             if eos_found:
                 break
-        
+        if progress_bar:
+            pbar.update(1)
     if decode:
         captions = []
         for b in out:
