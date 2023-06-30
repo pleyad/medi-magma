@@ -2,9 +2,9 @@
 
 ### Data processing
 The scripts used for data preprocessing are:
-* `NB_combined_prepare.py`
-* `NB_iuxray_pepare.py` 
-* `NB_mimix_prepare.py`
+* `DATA_combined_prepare.py`
+* `DATA_iuxray_pepare.py` 
+* `DATA_mimix_prepare.py`
 
 ### Training
 The training of the two training experiment are were done with the following:
@@ -17,6 +17,9 @@ Script used:
 * `medimagma_inference.py`
 
 ### Evaluation
+Scripts used:
+* `preprocess_predictions.py`
+* `all_timesteps_evaluate.py`
 
 ### Plots
 All materials and code can be found in the `plots/` folder.
