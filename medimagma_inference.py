@@ -16,7 +16,7 @@ CONFIG_PATH = 'configs/MAGMA_medi_biomedlm_mimic_x-iu.yml'
 CHECKPOINT_PATH = 'checkpoints/medimagma_mimic_iu'
 MODEL_PATH = 'model/medimagma_mimic_iu'
 PREDICTION_PATH = 'predictions/medimagma_mimic_iu'
-TEST_DATA_PATH = '/srv/scratch1/nbodenmann/prepared_mimic-cxr/test_with_study_id'
+TEST_DATA_PATH = '<path>'
 WEIGHT_EXTRACTION = os.path.join(CHECKPOINT_PATH, 'zero_to_fp32.py')
 GPU = 'cuda:5'
 
