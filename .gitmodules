@@ -1,0 +1,3 @@
+[submodule "RadCLIQ-CXR"]
+	path = RadCLIQ-CXR
+	url = https://github.com/pleyad/RadCLIQ-CXR
